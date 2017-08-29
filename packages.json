@@ -11,12 +11,11 @@
         "type": "project",
         "version": "dev-master"
       },
-      "1.0.0": {
+      "v1.0": {
         "name": "cesarfelip3/laravel",
-        "source": {
-          "reference": "HEAD",
-          "type": "git",
-          "url": "https://github.com/cesarfelip3/laravel.git"
+        "dist": {
+          "type": "zip",
+          "url": "https://github.com/cesarfelip3/laravel/archive/1.0.0.zip"
         },
         "type": "project",
         "version": "1.0.0"
