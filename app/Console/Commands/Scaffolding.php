@@ -378,7 +378,7 @@ EOF;
                 continue;
             }
             $castTo = $this->castTo($column);
-            if( $castTo ) {
+            if ($castTo) {
                 $results .= PHP_EOL . "\t\t'{$column->Field}' => '{$castTo}',";
             }
         }
@@ -401,7 +401,26 @@ EOF;
 
     private function getRelationships()
     {
-        return '';
+        $results = '';
+        foreach ($this->columnsInformation as $column) {
+            if (in_array($column->Field, $this->unnecessaryColumns) and !ends_with($column->Field, '_id')) {
+                continue;
+            }
+            $fieldName = substr($column->Field, 0, -3);
+            $camelCase = camel_case($fieldName);
+            $pascalName = ucwords($column->Field);
+            $string = <<<EOF
+\tpublic function {$camelCase}()
+\t{
+\t\treturn \$this->belongsTo({$pascalName}::class);
+\t}
+
+EOF;
+
+            $results .= $string;
+        }
+
+        return $results;
     }
 
     private function getTraitRequestFields()
@@ -464,8 +483,7 @@ EOF;
             if (in_array($column->Field, $this->unnecessaryColumns)) {
                 continue;
             }
-            $rule = $this->listTheRulesFrom($column);
-            $results .= PHP_EOL . "\t\t\t'$column->Field' => \$model->$column->Field,";
+            $results .= PHP_EOL . "\t\t\t'$column->Field' => \$this->$column->Field,";
         }
 
         return $results;
