@@ -362,7 +362,7 @@ EOF;
 
 EOF;
 
-            $results .= $string . PHP_EOL;
+            $results .= $string;
         }
 
         return $results;
