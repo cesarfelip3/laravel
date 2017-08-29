@@ -439,8 +439,8 @@ EOF;
                 $string = <<<EOF
 \tpublic function {$camelCase}()
 \t{
-\t\t\${$camelCase} = (object) \$this->get('{$snakeCase}');
-\t\treturn \App\Models\\{$pascalName}::findOrFail(\${$camelCase}->id);;
+\t\t\${$camelCase} = (object) \$this->get('{$camelCase}');
+\t\treturn \App\Models\\{$pascalName}::findOrFail(\${$camelCase}->id);
 \t}
 
 
