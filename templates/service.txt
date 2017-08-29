@@ -20,7 +20,7 @@ class {pascalName}Service
             ${camelCaseName} = new {pascalName}($data);
             ${camelCaseName}->save();
 
-            {createRelationshipsFields}
+{createRelationshipsFields}
             event(new {pascalName}Created(${camelCaseName}));
 
             return ${camelCaseName};
@@ -34,7 +34,7 @@ class {pascalName}Service
 
             ${camelCaseName}->save();
 
-            {createRelationshipsFields}
+{createRelationshipsFields}
             event(new {pascalName}Updated(${camelCaseName}));
 
             return ${camelCaseName};
