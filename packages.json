@@ -1,0 +1,26 @@
+{
+  "packages": {
+    "cesarfelip3/laravel": {
+      "dev": {
+        "name": "cesarfelip3/laravel",
+        "source": {
+          "reference": "882816c7c05b5b5704e84bdb0f7ad69230df3c0c",
+          "type": "git",
+          "url": "https://github.com/cesarfelip3/laravel.git"
+        },
+        "type": "project",
+        "version": "dev-master"
+      },
+      "1.0.0": {
+        "name": "cesarfelip3/laravel",
+        "source": {
+          "reference": "882816c7c05b5b5704e84bdb0f7ad69230df3c0c",
+          "type": "git",
+          "url": "https://github.com/cesarfelip3/laravel.git"
+        },
+        "type": "project",
+        "version": "1.0.0"
+      }
+    }
+  }
+}
