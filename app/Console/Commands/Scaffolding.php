@@ -498,16 +498,12 @@ EOF;
     {
         $results = '';
         foreach ($this->columnsInformation as $column) {
-            if (in_array($column->Field, $this->unnecessaryColumns)) {
+            if (in_array($column->Field, $this->unnecessaryColumns) or ends_with($column->Field, '_id')) {
                 continue;
             }
             $field = camel_case($column->Field);
             $obj = $this->camelCaseName;
-            if (ends_with($column->Field, '_id')) {
-                $results .= PHP_EOL . "\t\t\t\${$obj}->{$field}()->associate(\$request->{$field}());";
-            } else {
-                $results .= PHP_EOL . "\t\t\t\${$obj}->{$column->Field} = \$request->{$field}();";
-            }
+            $results .= PHP_EOL . "\t\t\t\${$obj}->{$column->Field} = \$request->{$field}();";
         }
 
         return $results;

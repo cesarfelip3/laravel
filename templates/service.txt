@@ -34,6 +34,7 @@ class {pascalName}Service
 
             ${camelCaseName}->save();
 
+            {createRelationshipsFields}
             event(new {pascalName}Updated(${camelCaseName}));
 
             return ${camelCaseName};
