@@ -488,7 +488,7 @@ EOF;
             $fieldName = substr($column->Field, 0, -3);
             $camelCase = camel_case($fieldName);
 
-            $results .= PHP_EOL . "\t\t\t\t\${$this->camelCaseName}->{$camelCase}()->associate(\$request->{$camelCase}());";
+            $results .= "\t\t\t\${$this->camelCaseName}->{$camelCase}()->associate(\$request->{$camelCase}());" . PHP_EOL;
         }
 
         return $results;
@@ -504,10 +504,7 @@ EOF;
             $field = camel_case($column->Field);
             $obj = $this->camelCaseName;
             if (ends_with($column->Field, '_id')) {
-                $string = <<<EOF
-EOF;
-
-                $results .= $string;
+                $results .= PHP_EOL . "\t\t\t\${$obj}->{$field}()->associate(\$request->{$field}());";
             } else {
                 $results .= PHP_EOL . "\t\t\t\${$obj}->{$column->Field} = \$request->{$field}();";
             }
