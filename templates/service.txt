@@ -1,18 +1,50 @@
 <?php
 
-namespace App\Transformers;
+namespace App\Services;
 
-use League\Fractal\TransformerAbstract;
+use App\Events\{pascalName}Created;
+use App\Events\{pascalName}Deleted;
+use App\Events\{pascalName}Updated;
+use App\Http\Requests\{pascalName}CreateRequest;
+use App\Http\Requests\{pascalName}UpdateRequest;
 use App\Models\{pascalName};
 
-class {pascalName}Transformer extends TransformerAbstract
+class {pascalName}Service
 {
-    public function transform({pascalName} $model)
+    public function create({pascalName}CreateRequest $request): {pascalName}
     {
-        return [
-            'id' => (int)$model->id,{transformerFields}
-            'created_at' => $model->created_at,
-            'updated_at' => $model->updated_at
-        ];
+        return \DB::transaction(function () use ($request) {
+            $data = [{createFields}
+            ];
+
+            ${camelCaseName} = new {pascalName}($data);
+            ${camelCaseName}->save();
+
+            event(new {pascalName}Created(${camelCaseName}));
+
+            return ${camelCaseName};
+        });
+    }
+
+    public function update({pascalName}UpdateRequest $request, {pascalName} ${camelCaseName}): {pascalName}
+    {
+        return \DB::transaction(function () use ($request, ${camelCaseName}) {
+            {updateFields}
+
+            ${camelCaseName}->save();
+
+            event(new {pascalName}Updated(${camelCaseName}));
+
+            return ${camelCaseName};
+        });
+    }
+
+    public function delete({pascalName} ${camelCaseName})
+    {
+        return \DB::transaction(function() use (${camelCaseName}) {
+           ${camelCaseName}->delete();
+
+           event(new {pascalName}Deleted(${camelCaseName}));
+        });
     }
 }

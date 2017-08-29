@@ -21,6 +21,8 @@ class Scaffolding extends Command
     protected $pascalName;
     protected $kebabName;
     protected $kebabPluralName;
+    protected $camelCaseName;
+    protected $camelCasePluralName;
     protected $columnsInformation;
     protected $snakeName;
     protected $signature = 'scaffolding:make {name} {--object=all}';
@@ -37,9 +39,11 @@ class Scaffolding extends Command
         $this->name = $this->argument('name');       // FooBar
         $this->object = $this->option('object');
         $this->lowerName = strtolower($this->name);       // foobar
-        $this->pluralName = str_plural($this->name);       // foobars
-        $this->pluralPascalName = $this->pluralName;             // Foobars
+        $this->pluralName = str_plural($this->name);       // Poobar
+        $this->camelCaseName = camel_case($this->name);       // fooBar
+        $this->camelCasePluralName = $this->camelCaseName;             // fooBars
         $this->pascalName = $this->name;                   // FooBar
+        $this->pluralPascalName = $this->pluralName;             // Foobars
         $this->kebabName = kebab_case($this->name);       // foo-bar
         $this->kebabPluralName = kebab_case($this->pluralName);       // foo-bar
         $this->snakeName = snake_case($this->name);       // foo_bar
@@ -206,6 +210,8 @@ class Scaffolding extends Command
             $compiledModel = str_replace('{fillable}', $this->getFillables(), $compiledModel);
             $compiledModel = str_replace('{casts}', $this->getCasts(), $compiledModel);
             $compiledModel = str_replace('{relationships}', $this->getRelationships(), $compiledModel);
+            $compiledModel = str_replace('{createFields}', $this->getCreateFields(), $compiledModel);
+            $compiledModel = str_replace('{updateFields}', $this->getUpdateFields(), $compiledModel);
             $compiledModel = str_replace('{rules}', $this->getRules(), $compiledModel);
             $compiledModel = str_replace('{vueFormFields}', $this->getVueFormFields(), $compiledModel);
             $compiledModel = str_replace('{vueFormFieldsJs}', $this->getVueFormFieldsJs(), $compiledModel);
@@ -327,6 +333,36 @@ EOF;
     private function getRelationships()
     {
         return '';
+    }
+
+    private function getCreateFields()
+    {
+        $results = '';
+        foreach ($this->columnsInformation as $column) {
+            if (in_array($column->Field, $this->unnecessaryColumns)) {
+                continue;
+            }
+            $field = camel_case(str_replace('_', '', $column->Field));
+
+            $results .= PHP_EOL . "\t\t\t'{$column->Field}' => \$request->{$field}()',";
+        }
+
+        return $results;
+    }
+
+    private function getUpdateFields()
+    {
+        $results = '';
+        foreach ($this->columnsInformation as $column) {
+            if (in_array($column->Field, $this->unnecessaryColumns)) {
+                continue;
+            }
+            $field = camel_case(str_replace('_', '', $column->Field));
+            $obj = $this->camelCaseName;
+            $results .= PHP_EOL . "\t\t\t\${$obj}->{$column->Field} = \$request->{$field}();";
+        }
+
+        return $results;
     }
 
     private function getTransformerFields()
