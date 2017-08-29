@@ -100,7 +100,7 @@
 
             findIndex({camelCaseName}) {
                 return this.{camelCasePluralName}.findIndex((_{camelCaseName}) => {
-                    return _{camelCaseName} === {camelCaseName};
+                    return _{camelCaseName}.id === {camelCaseName}.id;
                 });
             }
         }
