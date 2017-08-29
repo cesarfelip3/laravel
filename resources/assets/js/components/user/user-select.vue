@@ -3,8 +3,8 @@
         <single-select
                 v-model="internalValue"
                 :value="value"
-                api="{kebabName}"
-                placeholder="Select a {pascalName}">
+                api="user"
+                placeholder="Select a User">
         </single-select>
     </div>
 </template>

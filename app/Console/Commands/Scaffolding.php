@@ -560,7 +560,7 @@ EOF;
     private function updateBootstrapJs()
     {
         $bootstrapJs = base_path() . '/resources/assets/js/components/bootstrap.js';
-        $template = "\nVue.component('{$this->kebabName}-list', require('./{$this->kebabName}/{$this->kebabName}-list.vue'));\nVue.component('{$this->kebabName}-form', require('./{$this->kebabName}/{$this->kebabName}-form.vue'));\n";
+        $template = "\nVue.component('{$this->kebabName}-list', require('./{$this->kebabName}/{$this->kebabName}-list.vue'));\n";
         File::append($bootstrapJs, $template);
         $this->info('BootstrapJS Updated!');
     }

@@ -48,15 +48,15 @@
 </template>
 
 <script>
-    import {pluralPascalName}Form from './{kebabName}-form';
+    import {pascalName}Form from './{kebabName}-form';
 
     export default {
         components:{
-            {pluralPascalName}Form
+            {pascalName}Form
         },
         data() {
             return {
-                {pluralName}: []
+                {camelCasePluralName}: []
             }
         },
 
@@ -70,37 +70,37 @@
                 this.$refs.form.show();
             },
 
-            edit({snakeName}) {
-                this.$refs.form.show({snakeName});
+            edit({camelCaseName}) {
+                this.$refs.form.show({camelCaseName});
             },
 
             reload() {
                 let self = this;
                 Slc.get(laroute.route('api.{kebabName}.index'))
                     .then((response) => {
-                        self.{pluralName} = response;
+                        self.{camelCasePluralName} = response;
                     });
             },
 
-            formSaved({snakeName}) {
+            formSaved({camelCaseName}) {
                 this.reload();
             },
 
-            destroy({snakeName}) {
+            destroy({camelCaseName}) {
                 let self = this;
-                Slc.delete(laroute.route('api.{kebabName}.destroy', {{snakeName}: {snakeName}.id}), {snakeName}.destroyForm)
+                Slc.delete(laroute.route('api.{kebabName}.destroy', {{camelCaseName}: {camelCaseName}.id}), {camelCaseName}.destroyForm)
                     .then(() => {
-                        self.remove{pascalName}({snakeName});
+                        self.remove{pascalName}({camelCaseName});
                     });
             },
 
-            remove{pascalName}({snakeName}) {
-                this.{pluralName}.splice(this.findIndex({snakeName}), 1);
+            remove{pascalName}({camelCaseName}) {
+                this.{camelCasePluralName}.splice(this.findIndex({camelCaseName}), 1);
             },
 
-            findIndex({snakeName}) {
-                return this.{pluralName}.findIndex((_{snakeName}) => {
-                    return _{snakeName} === {snakeName};
+            findIndex({camelCaseName}) {
+                return this.{camelCasePluralName}.findIndex((_{camelCaseName}) => {
+                    return _{camelCaseName} === {camelCaseName};
                 });
             }
         }
