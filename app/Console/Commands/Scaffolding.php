@@ -432,13 +432,25 @@ EOF;
             }
             $camelCase = camel_case($column->Field);
             $snakeCase = $column->Field;
-            $string = <<<EOF
+            if (ends_with($column->Field, '_id')) {
+                $string = <<<EOF
+\tpublic function {$camelCase}()
+\t{
+\t\t\t\$id = \$this->get('{$snakeCase}');
+\t\t\t\$user = \App\Models\{}::findOrFail(\$id);
+\t\t\treturn \${$camelCase};
+\t}
+
+EOF;
+            } else {
+                $string = <<<EOF
 \tpublic function {$camelCase}()
 \t{
 \t\treturn \$this->get('{$snakeCase}');
 \t}
 
 EOF;
+            }
 
             $results .= $string;
         }
