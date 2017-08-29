@@ -390,7 +390,7 @@ EOF;
     {
         $results = '';
         foreach ($this->columnsInformation as $column) {
-            if (in_array($column->Field, $this->unnecessaryColumns) or $column->Field != 'date') {
+            if (in_array($column->Field, $this->unnecessaryColumns) or $column->Type != 'date') {
                 continue;
             }
             $results .= PHP_EOL . "\t\t'{$column->Field}',";
