@@ -27,11 +27,12 @@ class UserInvited extends Notification
     public function toMail($notifiable)
     {
         $route = route('invitation', ['token' => $this->user->invitation_token]);
+        $appName = config('app.name');
 
         return (new MailMessage)
-            ->subject('You have being invited to be part of Nexus!')
+            ->subject("You have being invited to be part of {$appName}!")
             ->greeting("Hello {$this->user->name}!")
-            ->line('You are being invited to be part of Nexus!')
+            ->line("You are being invited to be part of {$appName}!")
             ->action('Accept invitation', $route)
             ->line('We hope you liked!');
     }

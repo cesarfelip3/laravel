@@ -44,15 +44,15 @@ class UsersController extends Controller
             'data' => $obj,
         ];
 
-        return $this->ok($response);
+        return $response;
     }
 
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        $deleted = $this->repository->delete($id);
-        return $this->ok([
-            'message' => 'User deleted.',
-            'deleted' => $deleted,
-        ]);
+        $this->service->delete($user);
+
+        return [
+            'message' => 'User deleted.'
+        ];
     }
 }

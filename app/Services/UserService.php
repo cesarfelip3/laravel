@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-
 use App\Events\UserCreated;
+use App\Events\UserDeleted;
 use App\Events\UserUpdated;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
@@ -48,6 +48,15 @@ class UserService
             event(new UserUpdated($user, $emailWasChanged));
 
             return $user;
+        });
+    }
+
+    public function delete(User $user)
+    {
+        return \DB::transaction(function() use ($user) {
+           $user->delete();
+
+           event(new UserDeleted($user));
         });
     }
 }

@@ -129,7 +129,7 @@
 
             findIndex(user) {
                 return this.users.findIndex((_user) => {
-                    return _user === user;
+                    return _user.id === user.id;
                 });
             }
         }
