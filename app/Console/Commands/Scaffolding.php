@@ -65,24 +65,20 @@ class Scaffolding extends Command
 
             default:
                 $this->model();
+                $this->service();
                 $this->apiController();
                 $this->controller();
                 $this->apiRoute();
                 $this->route();
                 $this->createRequest();
                 $this->updateRequest();
-                $this->presenter();
-                $this->transformer();
-                $this->repository();
-                $this->repositoryEloquent();
-                $this->updateRepositoryServiceProvider();
                 $this->makeVueDirectory();
                 $this->vueForm();
                 $this->vueList();
+                $this->vueSelect();
                 $this->updateBootstrapJs();
                 $this->makeViewDirectory();
                 $this->view();
-//                $this->npmRunDev();
                 $this->info(PHP_EOL . 'BE HAPPY');
                 break;
         }
@@ -131,28 +127,10 @@ class Scaffolding extends Command
         $this->info('Update Request generated!');
     }
 
-    private function presenter()
+    private function service()
     {
-        $this->generateFile('presenter', 'app/Presenters', $this->pascalName, 'Presenter');
-        $this->info('Presenter generated!');
-    }
-
-    private function transformer()
-    {
-        $this->generateFile('transformer', 'app/Transformers', $this->pascalName, 'Transformer');
-        $this->info('Transformer generated!');
-    }
-
-    private function repository()
-    {
-        $this->generateFile('repository', 'app/Repositories', $this->pascalName, 'Services');
-        $this->info('Services generated!');
-    }
-
-    private function repositoryEloquent()
-    {
-        $this->generateFile('repository-eloquent', 'app/Repositories', $this->pascalName, 'RepositoryEloquent');
-        $this->info('Services Eloquent generated!');
+        $this->generateFile('service', 'app/Services', $this->pascalName, 'Service');
+        $this->info('Service generated!');
     }
 
     private function makeVueDirectory()
@@ -171,6 +149,12 @@ class Scaffolding extends Command
     {
         $this->generateFile('vue-list', "resources/assets/js/components/$this->kebabName", $this->kebabName, '-list', 'vue');
         $this->info('Vue List generated!');
+    }
+
+    private function vueSelect()
+    {
+        $this->generateFile('vue-select', "resources/assets/js/components/$this->kebabName", $this->kebabName, '-select', 'vue');
+        $this->info('Vue Select generated!');
     }
 
     private function makeViewDirectory()
@@ -220,6 +204,8 @@ class Scaffolding extends Command
         $compiledModel = str_replace('{pascalName}', $this->pascalName, $compiledModel);
         if (!is_null($this->columnsInformation)) {
             $compiledModel = str_replace('{fillable}', $this->getFillables(), $compiledModel);
+            $compiledModel = str_replace('{casts}', $this->getCasts(), $compiledModel);
+            $compiledModel = str_replace('{relationships}', $this->getRelationships(), $compiledModel);
             $compiledModel = str_replace('{rules}', $this->getRules(), $compiledModel);
             $compiledModel = str_replace('{vueFormFields}', $this->getVueFormFields(), $compiledModel);
             $compiledModel = str_replace('{vueFormFieldsJs}', $this->getVueFormFieldsJs(), $compiledModel);
@@ -333,6 +319,16 @@ EOF;
         return implode(', ', $fields);
     }
 
+    private function getCasts()
+    {
+        return '';
+    }
+
+    private function getRelationships()
+    {
+        return '';
+    }
+
     private function getTransformerFields()
     {
         $results = '';
@@ -396,4 +392,6 @@ EOF;
         shell_exec('npm run dev');
         $this->info('Js Compiled');
     }
+
+
 }

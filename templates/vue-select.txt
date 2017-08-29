@@ -1,0 +1,110 @@
+<template>
+    <div>
+        <box>
+            <box-title>
+                {pluralPascalName}
+                <box-tools slot="tools">
+                    <box-tool icon="plus" @click.native="add">New</box-tool>
+                </box-tools>
+            </box-title>
+            <box-content>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>ID</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                         <tr v-for="( {lowerName}, index ) in {pluralName}">
+                            <td>{{ index + 1 }}</td>
+                            <td>{{ {lowerName}.id }}</td>
+                            <td>
+                                <btn-success
+                                    size="xs"
+                                    @click.native="edit({lowerName})"
+                                >
+                                    <icon icon="edit"/>
+                                </btn-success>
+
+                                <btn-danger @click.native="destroy({lowerName})"
+                                            :disabled="{lowerName}.destroyForm.busy"
+                                            size="xs"
+                                >
+                                    <spinner v-if="{lowerName}.destroyForm.busy"></spinner>
+                                    <icon icon="trash" v-else/>
+                                </btn-danger>
+
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </box-content>
+        </box>
+        <{kebabName}-form ref="form" @saved="formSaved"></{kebabName}-form>
+    </div>
+</template>
+
+<script>
+    import {pluralPascalName}Form from './{kebabName}-form';
+
+    export default {
+        components:{
+            {pluralPascalName}Form
+        },
+        data() {
+            return {
+                {pluralName}: []
+            }
+        },
+
+        mounted() {
+            this.reload();
+        },
+
+        methods: {
+
+            add() {
+                this.$refs.form.show();
+            },
+
+            edit({snakeName}) {
+                this.$refs.form.show({snakeName});
+            },
+
+            reload() {
+                let self = this;
+                Slc.get(laroute.route('api.{kebabName}.index'))
+                    .then((response) => {
+                        self.{pluralName} = response;
+                    });
+            },
+
+            formSaved({snakeName}) {
+                this.reload();
+            },
+
+            destroy({snakeName}) {
+                let self = this;
+                Slc.delete(laroute.route('api.{kebabName}.destroy', {{snakeName}: {snakeName}.id}), {snakeName}.destroyForm)
+                    .then(() => {
+                        self.remove{pascalName}({snakeName});
+                    });
+            },
+
+            remove{pascalName}({snakeName}) {
+                this.{pluralName}.splice(this.findIndex({snakeName}), 1);
+            },
+
+            findIndex({snakeName}) {
+                return this.{pluralName}.findIndex((_{snakeName}) => {
+                    return _{snakeName} === {snakeName};
+                });
+            }
+        }
+
+    }
+
+</script>

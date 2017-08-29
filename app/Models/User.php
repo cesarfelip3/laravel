@@ -76,7 +76,5 @@ class User extends Authenticatable
             'pending' => $this->invitation_token != null
         ];
     }
-
-
     #endregion
 }

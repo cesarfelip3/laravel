@@ -3,54 +3,56 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\{pascalName}Repository;
 use App\Http\Requests\{pascalName}CreateRequest;
 use App\Http\Requests\{pascalName}UpdateRequest;
+use App\Models\{pascalName};
+use App\Services\{pascalName}Service;
 
 class {pluralPascalName}Controller extends Controller
 {
-    protected $repository;
+    private $service;
 
-    public function __construct({pascalName}Repository $repository)
+    public function __construct({pascalName}Service $service)
     {
-        $this->repository = $repository;
+        $this->middleware('needsRole:admin');
+        $this->service = $service;
     }
 
     public function index()
     {
-        return $this->ok($this->repository->all());
+        return {pascalName}::all();
     }
 
     public function store({pascalName}CreateRequest $request)
     {
-        $obj = $this->repository->create($request->all());
+        $data = $this->service->create($request);
 
         $response = [
             'message' => '{pascalName} created.',
-            'data' => $obj,
+            'data' => $data
         ];
 
-        return $this->ok($response);
+        return $response;
     }
 
-    public function update({pascalName}UpdateRequest $request, $id)
+    public function update({pascalName}UpdateRequest $request, {pascalName} $user)
     {
-        $obj = $this->repository->update($request->all(), $id);
+        $obj = $this->service->update($request, $user);
 
         $response = [
             'message' => '{pascalName} updated.',
             'data' => $obj,
         ];
 
-        return $this->ok($response);
+        return $response;
     }
 
-    public function destroy($id)
+    public function destroy({pascalName} $user)
     {
-        $deleted = $this->repository->delete($id);
-        return $this->ok([
-            'message' => '{pascalName} deleted.',
-            'deleted' => $deleted,
-        ]);
+        $this->service->delete($user);
+
+        return [
+            'message' => '{pascalName} deleted.'
+        ];
     }
 }

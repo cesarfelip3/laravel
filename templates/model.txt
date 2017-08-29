@@ -13,4 +13,30 @@ class {pascalName} extends Model implements Transformable
     protected $fillable = [{fillable}
     ];
 
+    protected $casts = [{casts}
+    ];
+
+    #region Relationships
+    {relationships}
+    #region
+
+    #region Custom Attributes
+
+    #endregion
+
+    #region Queries
+
+    #endregion
+
+    #region Conversions
+    public function toArray()
+    {
+        return [
+            'id' => (int)$model->id,{transformerFields}
+            'created_at' => $model->created_at,
+            'updated_at' => $model->updated_at
+        ];
+    }
+    #endregion
+
 }

@@ -1,0 +1,18 @@
+<?php
+
+namespace App\Transformers;
+
+use League\Fractal\TransformerAbstract;
+use App\Models\{pascalName};
+
+class {pascalName}Transformer extends TransformerAbstract
+{
+    public function transform({pascalName} $model)
+    {
+        return [
+            'id' => (int)$model->id,{transformerFields}
+            'created_at' => $model->created_at,
+            'updated_at' => $model->updated_at
+        ];
+    }
+}
