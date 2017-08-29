@@ -374,7 +374,7 @@ EOF;
     {
         $results = '';
         foreach ($this->columnsInformation as $column) {
-            if (in_array($column->Field, $this->unnecessaryColumns)) {
+            if (in_array($column->Field, $this->unnecessaryColumns) or ends_with($column->Field, '_id')) {
                 continue;
             }
             $castTo = $this->castTo($column);
@@ -439,8 +439,8 @@ EOF;
                 $string = <<<EOF
 \tpublic function {$camelCase}()
 \t{
-\t\t\t\$id = \$this->get('{$fieldName}');
-\t\t\t\$user = \App\Models\\{$pascalName}::findOrFail(\$id);
+\t\t\$id = \$this->get('{$snakeCase}');
+\t\t\$user = \App\Models\\{$pascalName}::findOrFail(\$id);
 \t\t\treturn \${$camelCase};
 \t}
 
