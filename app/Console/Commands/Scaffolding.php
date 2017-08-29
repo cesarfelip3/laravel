@@ -403,12 +403,12 @@ EOF;
     {
         $results = '';
         foreach ($this->columnsInformation as $column) {
-            if (in_array($column->Field, $this->unnecessaryColumns) and !ends_with($column->Field, '_id')) {
+            if (in_array($column->Field, $this->unnecessaryColumns) or !ends_with($column->Field, '_id')) {
                 continue;
             }
             $fieldName = substr($column->Field, 0, -3);
             $camelCase = camel_case($fieldName);
-            $pascalName = ucwords($column->Field);
+            $pascalName = ucwords($fieldName);
             $string = <<<EOF
 \tpublic function {$camelCase}()
 \t{
