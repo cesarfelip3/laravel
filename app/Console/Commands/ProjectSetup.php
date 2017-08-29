@@ -4,10 +4,10 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class PostProjectCreate extends Command
+class ProjectSetup extends Command
 {
 
-    protected $signature = 'project:create';
+    protected $signature = 'project:setup';
 
     protected $description = 'Setup project info';
 

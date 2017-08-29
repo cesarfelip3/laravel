@@ -2,7 +2,7 @@
 
 namespace App\Console;
 
-use App\Console\Commands\PostProjectCreate;
+use App\Console\Commands\ProjectSetup;
 use App\Console\Commands\Scaffolding;
 use App\Console\Commands\ScaffoldingRollback;
 use Illuminate\Console\Scheduling\Schedule;
@@ -12,7 +12,7 @@ class Kernel extends ConsoleKernel
 {
 
     protected $commands = [
-        PostProjectCreate::class,
+        ProjectSetup::class,
         Scaffolding::class,
         ScaffoldingRollback::class,
     ];
