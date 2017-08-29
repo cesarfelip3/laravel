@@ -309,6 +309,19 @@ class Scaffolding extends Command
         return implode('|', $rules);
     }
 
+    private function castTo($column)
+    {
+        if (strpos($column->Type, 'int(') !== false) {
+            return 'int';
+        }
+
+        if (strpos($column->Type, 'boolean') !== false) {
+            return 'boolean';
+        }
+
+        return null;
+    }
+
     private function getVueFormFields()
     {
         $fields = '';
@@ -358,7 +371,18 @@ EOF;
 
     private function getCasts()
     {
-        return '';
+        $results = '';
+        foreach ($this->columnsInformation as $column) {
+            if (in_array($column->Field, $this->unnecessaryColumns)) {
+                continue;
+            }
+            $castTo = $this->castTo($column);
+            if( $castTo ) {
+                $results .= PHP_EOL . "\t\t'{$column->Field}' => {$castTo},";
+            }
+        }
+
+        return $results;
     }
 
     private function getRelationships()
