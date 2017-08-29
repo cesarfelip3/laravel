@@ -466,7 +466,7 @@ EOF;
     {
         $results = '';
         foreach ($this->columnsInformation as $column) {
-            if (in_array($column->Field, $this->unnecessaryColumns)) {
+            if (in_array($column->Field, $this->unnecessaryColumns) or ends_with($column->Field, '_id')) {
                 continue;
             }
             $field = camel_case($column->Field);
@@ -486,7 +486,14 @@ EOF;
             }
             $field = camel_case($column->Field);
             $obj = $this->camelCaseName;
-            $results .= PHP_EOL . "\t\t\t\${$obj}->{$column->Field} = \$request->{$field}();";
+            if (ends_with($column->Field, '_id')) {
+                $string = <<<EOF
+EOF;
+
+                $results .= $string;
+            } else {
+                $results .= PHP_EOL . "\t\t\t\${$obj}->{$column->Field} = \$request->{$field}();";
+            }
         }
 
         return $results;
