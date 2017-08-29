@@ -355,10 +355,10 @@ EOF;
             $camelCase = camel_case($column->Field);
             $snakeCase = $column->Field;
             $string = <<<EOF
-            public function {$camelCase}()
-            {
-                return \$this->get('{$snakeCase}');
-            }                           
+        public function {$camelCase}()
+        {
+            return \$this->get('{$snakeCase}');
+        }                           
 EOF;
 
             $results .= $string . PHP_EOL;

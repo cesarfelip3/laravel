@@ -4,5 +4,5 @@ namespace App\Http\Requests\Traits;
 
 trait {pascalName}Request
 {
-    {traitRequestFields}
+{traitRequestFields}
 }
