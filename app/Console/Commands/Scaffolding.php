@@ -201,6 +201,8 @@ class Scaffolding extends Command
         $compiledModel = str_replace('{snakeName}', $this->snakeName, $compiledModel);
         $compiledModel = str_replace('{kebabName}', $this->kebabName, $compiledModel);
         $compiledModel = str_replace('{kebabPluralName}', $this->kebabPluralName, $compiledModel);
+        $compiledModel = str_replace('{camelCaseName}', $this->camelCaseName, $compiledModel);
+        $compiledModel = str_replace('{camelCasePluralName}', $this->camelCasePluralName, $compiledModel);
         $compiledModel = str_replace('{lowerName}', $this->lowerName, $compiledModel);
         $compiledModel = str_replace('{pluralName}', $this->pluralName, $compiledModel);
         $compiledModel = str_replace('{pluralPascalName}', $this->pluralPascalName, $compiledModel);
@@ -342,7 +344,7 @@ EOF;
             if (in_array($column->Field, $this->unnecessaryColumns)) {
                 continue;
             }
-            $field = camel_case(str_replace('_', '', $column->Field));
+            $field = camel_case($column->Field);
 
             $results .= PHP_EOL . "\t\t\t'{$column->Field}' => \$request->{$field}()',";
         }
@@ -357,7 +359,7 @@ EOF;
             if (in_array($column->Field, $this->unnecessaryColumns)) {
                 continue;
             }
-            $field = camel_case(str_replace('_', '', $column->Field));
+            $field = camel_case($column->Field);
             $obj = $this->camelCaseName;
             $results .= PHP_EOL . "\t\t\t\${$obj}->{$column->Field} = \$request->{$field}();";
         }
