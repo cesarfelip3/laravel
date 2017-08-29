@@ -433,11 +433,14 @@ EOF;
             $camelCase = camel_case($column->Field);
             $snakeCase = $column->Field;
             if (ends_with($column->Field, '_id')) {
+                $fieldName = substr($column->Field, 0, -3);
+                $camelCase = camel_case($fieldName);
+                $pascalName = ucwords($fieldName);
                 $string = <<<EOF
 \tpublic function {$camelCase}()
 \t{
-\t\t\t\$id = \$this->get('{$snakeCase}');
-\t\t\t\$user = \App\Models\{}::findOrFail(\$id);
+\t\t\t\$id = \$this->get('{$fieldName}');
+\t\t\t\$user = \App\Models\{$pascalName}::findOrFail(\$id);
 \t\t\treturn \${$camelCase};
 \t}
 
