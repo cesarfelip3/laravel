@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "22cb41c1fa4e02e52b18369066f4f3f0",
+    "content-hash": "1fb5d3b832c0fc10625978a29425cf85",
     "packages": [
         {
             "name": "artesaos/defender",
