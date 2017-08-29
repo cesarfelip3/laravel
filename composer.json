@@ -7,6 +7,12 @@
   ],
   "license": "MIT",
   "type": "project",
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/SLCDevShop/laroute"
+    }
+  ],
   "require": {
     "php": ">=7.0.0",
     "artesaos/defender": "dev-master@dev",

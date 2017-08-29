@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "331cc96a4e67e04aa8146145000e19bd",
+    "content-hash": "22cb41c1fa4e02e52b18369066f4f3f0",
     "packages": [
         {
             "name": "artesaos/defender",
@@ -1580,13 +1580,13 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/aaronlord/laroute.git",
-                "reference": "342af22147de90e02d5104447b7c5aea056b5548"
+                "url": "https://github.com/SLCDevShop/laroute.git",
+                "reference": "caedfd60f471bf4202a02d1cf0b9119ba26f66f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aaronlord/laroute/zipball/342af22147de90e02d5104447b7c5aea056b5548",
-                "reference": "342af22147de90e02d5104447b7c5aea056b5548",
+                "url": "https://api.github.com/repos/SLCDevShop/laroute/zipball/caedfd60f471bf4202a02d1cf0b9119ba26f66f8",
+                "reference": "caedfd60f471bf4202a02d1cf0b9119ba26f66f8",
                 "shasum": ""
             },
             "require": {
@@ -1607,7 +1607,6 @@
                     "Lord\\Laroute\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1624,7 +1623,10 @@
                 "routes",
                 "routing"
             ],
-            "time": "2017-06-29T09:34:21+00:00"
+            "support": {
+                "source": "https://github.com/SLCDevShop/laroute/tree/master"
+            },
+            "time": "2017-08-29T14:46:25+00:00"
         },
         {
             "name": "monolog/monolog",
