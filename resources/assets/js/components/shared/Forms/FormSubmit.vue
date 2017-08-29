@@ -20,7 +20,7 @@
                 handler(newObject) {
                     for (let element in newObject.errors.all()) {
                         if (newObject.hasOwnProperty(element)) {
-                            if (newObject[element] !== null) {
+                            if (newObject[element] !== null && newObject[element].indexOf('required') > -1) {
                                 this.internalValue.errors.forget(element);
                             }
                         }

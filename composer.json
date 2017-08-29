@@ -50,7 +50,9 @@
       "app/Helpers/General.php"
     ],
     "classmap": [
-      "database"
+      "database",
+      "app/Models",
+      "app/Services"
     ],
     "psr-4": {
       "App\\": "app/"

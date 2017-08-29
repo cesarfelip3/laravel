@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Events\UserCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
-use App\Jobs\CreateUser;
 use App\Models\User;
-use App\Notifications\UserInvited;
+use App\Services\UserService;
 
 class UsersController extends Controller
 {
-    public function __construct()
+    private $service;
+
+    public function __construct(UserService $service)
     {
         $this->middleware('needsRole:admin');
+        $this->service = $service;
     }
 
     public function index()
@@ -24,18 +25,11 @@ class UsersController extends Controller
 
     public function store(UserCreateRequest $request)
     {
-        //
-
-//        $user = new User(['name' => $this->name, 'email' => $this->email]);
-//        $user->invitation_token = hash_hmac('sha256', str_random(40), config('APP_KEY'));
-//        $user->save();
-//        $user->attachRole($this->role);
-//
-//        event(new UserCreated($user));
-
+        $data = $this->service->create($request);
 
         $response = [
-            'message' => 'User created.'
+            'message' => 'User created.',
+            'data' => $data
         ];
 
         return $response;

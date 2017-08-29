@@ -1,6 +1,6 @@
 module.exports = {
 
-    get(uri) {
+    get (uri) {
         return Slc.fetch('get', uri);
     },
 
@@ -11,35 +11,35 @@ module.exports = {
     fetch(method, uri) {
         return new Promise((resolve, reject) => {
             axios
-            .get(uri)
-            .then(response => {
+                .get(uri)
+                .then(response => {
 
-            if (method === 'find') {
-            resolve(response.data);
-            return;
-        }
+                    if (method === 'find') {
+                        resolve(response.data);
+                        return;
+                    }
 
-        let items = [];
-        if ('data' in response.data) {
-            for (let index in response.data.data) {
-                response.data.data[index].destroyForm = new SlcForm({});
-            }
-            resolve(response.data);
-        } else {
-            for (let index in response.data) {
-                if (isNaN(index)) continue;
-                let item = response.data[index];
-                item.destroyForm = new SlcForm({});
-                items.push(item);
-            }
-            resolve(items);
-        }
-    })
-    .catch(errors => {
-            Slc.handleErrors(errors);
-        reject(errors.data);
-    });
-    });
+                    let items = [];
+                    if ('data' in response.data) {
+                        for (let index in response.data.data) {
+                            response.data.data[index].destroyForm = new SlcForm({});
+                        }
+                        resolve(response.data);
+                    } else {
+                        for (let index in response.data) {
+                            if (isNaN(index)) continue;
+                            let item = response.data[index];
+                            item.destroyForm = new SlcForm({});
+                            items.push(item);
+                        }
+                        resolve(items);
+                    }
+                })
+                .catch(errors => {
+                    Slc.handleErrors(errors);
+                    reject(errors.data);
+                });
+        });
     },
 
     // --
@@ -74,52 +74,52 @@ module.exports = {
 
         return new Promise((resolve, reject) => {
             swal({
-                     title: "Are you sure?",
-                     text: "This operation cannot be undone",
-                     type: "warning",
-                     showCancelButton: true,
-                     confirmButtonText: "Yes, proceed!",
-                     showLoaderOnConfirm: true,
-                     closeOnConfirm: false
-                 }, () => {
-            Slc.sendForm('delete', uri, form)
-                .then(data => {
-                resolve(data);
-        })
-        .catch(error => {
-                reject(error);
+                title: "Are you sure?",
+                text: "This operation cannot be undone",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, proceed!",
+                showLoaderOnConfirm: true,
+                closeOnConfirm: false
+            }, () => {
+                Slc.sendForm('delete', uri, form)
+                    .then(data => {
+                        resolve(data);
+                    })
+                    .catch(error => {
+                        reject(error);
+                    });
+            });
         });
-        });
-    });
     },
 
     sendForm(method, uri, form) {
         return new Promise((resolve, reject) => {
             form.startProcessing();
-        axios[method](uri, JSON.parse(JSON.stringify(form)))
-            .then(response => {
-            form.finishProcessing();
-        let data = response.data;
-        if (form.hasSwal) {
-            swal('Success!', data.message, "success");
-            resolve(data);
-            return;
-        }
-        if (data.message) {
-            toastr.success('', data.message);
-        }
-        resolve(data);
-    })
-    .catch(errors => {
-            console.log("Ajax Error", errors);
-        Slc.handleErrors(form, errors);
-        if (_.has(errors.response, 'data')) {
-            form.errors.set(errors.response.data);
-        }
-        form.busy = false;
-        reject(errors.data);
-    });
-    });
+            axios[method](uri, JSON.parse(JSON.stringify(form)))
+                .then(response => {
+                    form.finishProcessing();
+                    let data = response.data;
+                    if (form.hasSwal) {
+                        swal('Success!', data.message, "success");
+                        resolve(data);
+                        return;
+                    }
+                    if (data.message) {
+                        toastr.success('', data.message);
+                    }
+                    resolve(data);
+                })
+                .catch(errors => {
+                    console.log("Ajax Error", errors);
+                    Slc.handleErrors(form, errors);
+                    if (_.has(errors.response, 'data')) {
+                        form.errors.set(errors.response.data.errors);
+                    }
+                    form.busy = false;
+                    reject(errors.data);
+                });
+        });
     },
     // --
     handleErrors(form, errors) {
@@ -131,9 +131,7 @@ module.exports = {
             if (form.hasSwal) {
                 swal("Error occurred!", errors.response.data.message, "error");
                 return;
-            }
-
-            if (errors.response.status === 403) {
+            } else {
                 Bus.$emit(
                     'notify',
                     'error',

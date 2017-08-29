@@ -1,57 +1,21 @@
 <template>
     <div>
-        <multiselect
+        <single-select
                 v-model="internalValue"
-                track-by="id"
-                label="name"
-                :options="options"
-                :searchable="true"
-                :internal-search="true"
-                placeholder="Select a Role"
-                @select="onSelect"
-                v-bind:value="value"
-        />
+                :value="value"
+                api="role"
+                placeholder="Select a Role">
+        </single-select>
     </div>
 </template>
 
 <script>
-    import Multiselect from 'vue-multiselect';
+    import SingleSelect from '../shared/Inputs/SingleSelect';
 
     export default {
-
+        mixins: [require('../shared/Mixins/Model')],
         components: {
-            Multiselect
+            SingleSelect
         },
-
-        props: {
-            value: {required: true}
-        },
-
-        data() {
-            return {
-                internalValue: null,
-                options: []
-            }
-        },
-
-        watch: {
-            value() {
-                this.internalValue = this.value;
-            }
-        },
-
-        created() {
-            Slc
-                .find(laroute.route('api.role.index'))
-                .then((response) => {
-                    this.options = response;
-                });
-        },
-
-        methods: {
-            onSelect(value) {
-                this.$emit('input', value);
-            }
-        }
     }
 </script>
