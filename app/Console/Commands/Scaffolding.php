@@ -243,6 +243,7 @@ class Scaffolding extends Command
             $compiledModel = str_replace('{dates}', $this->getDateFields(), $compiledModel);
             $compiledModel = str_replace('{relationships}', $this->getRelationships(), $compiledModel);
             $compiledModel = str_replace('{createFields}', $this->getCreateFields(), $compiledModel);
+            $compiledModel = str_replace('{createRelationshipsFields}', $this->getCreateRelationshipsFields(), $compiledModel);
             $compiledModel = str_replace('{updateFields}', $this->getUpdateFields(), $compiledModel);
             $compiledModel = str_replace('{rules}', $this->getRules(), $compiledModel);
             $compiledModel = str_replace('{vueFormFields}', $this->getVueFormFields(), $compiledModel);
@@ -472,6 +473,22 @@ EOF;
             $field = camel_case($column->Field);
 
             $results .= PHP_EOL . "\t\t\t\t'{$column->Field}' => \$request->{$field}(),";
+        }
+
+        return $results;
+    }
+
+    private function getCreateRelationshipsFields()
+    {
+        $results = '';
+        foreach ($this->columnsInformation as $column) {
+            if (in_array($column->Field, $this->unnecessaryColumns) or ! ends_with($column->Field, '_id')) {
+                continue;
+            }
+            $fieldName = substr($column->Field, 0, -3);
+            $camelCase = camel_case($fieldName);
+
+            $results .= PHP_EOL . "\t\t\t\t\${$this->camelCaseName}->{$camelCase}()->associate(\$request->{$camelCase}());";
         }
 
         return $results;
