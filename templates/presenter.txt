@@ -1,0 +1,14 @@
+<?php
+
+namespace App\Presenters;
+
+use App\Transformers\{pascalName}Transformer;
+use Prettus\Repository\Presenter\FractalPresenter;
+
+class {pascalName}Presenter extends FractalPresenter
+{
+    public function getTransformer()
+    {
+        return new {pascalName}Transformer();
+    }
+}

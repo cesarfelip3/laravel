@@ -1,0 +1,13 @@
+// Bootstrap
+//noinspection CssUnknownTarget
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+// Font Awesome
+//noinspection CssUnknownTarget
+@import "node_modules/font-awesome/scss/font-awesome";
+//noinspection CssUnknownTarget
+@import "node_modules/toastr/toastr";
+//noinspection CssUnknownTarget
+@import "../../../node_modules/vue-multiselect/dist/vue-multiselect.min.css";
+//noinspection CssUnknownTarget
+@import "node_modules/sweetalert/dev/sweetalert";

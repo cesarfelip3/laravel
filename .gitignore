@@ -1,0 +1,28 @@
+# Created by .ignore support plugin (hsz.mobi)
+.idea
+.DS_STORE
+yarn-error.log
+.yarnclean
+
+### Laravel template
+/vendor/
+/node_modules/
+npm-debug.log
+
+# Laravel 5 & Lumen specific
+public/storage
+public/hot
+/storage/*.key
+.env.*.php
+.env.php
+.env
+Homestead.yaml
+Homestead.json
+
+/node_modules
+/public/hot
+/public/storage
+/.vagrant
+
+_ide_helper.php
+.phpstorm.meta.php

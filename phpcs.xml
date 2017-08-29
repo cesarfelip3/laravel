@@ -1,0 +1,4 @@
+<ruleset name="name-of-your-coding-standard">
+    <description>SLC Devshop coding standard</description>
+    <rule ref="Generic.PHP.DisallowShortOpenTag"/>
+</ruleset>

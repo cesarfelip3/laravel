@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="SLCDevShopNexus" default="default">
+
+    <property name="phpunit" value="${basedir}/vendor/bin/phpunit"/>
+    <property name="phpdox" value="${basedir}/vendor/bin/phpdox"/>
+    <property name="pdepend" value="${basedir}/vendor/bin/pdepend"/>
+    <property name="phpcpd" value="${basedir}/vendor/bin/phpcpd"/>
+    <property name="phpcs" value="${basedir}/vendor/bin/phpcs"/>
+    <property name="phploc" value="${basedir}/vendor/bin/phploc"/>
+    <property name="phpmd" value="${basedir}/vendor/bin/phpmd"/>
+    <property name="phpmetrics" value="${basedir}/vendor/bin/phpmetrics"/>
+    <property name="deploy" value="${basedir}/vendor/bin/dep"/>
+
+    <target name="default"
+            depends="clean,prepare,phpdox,pdepend,phpcpd,phpcs,phploc,phpmd,phpunit,deploy,check-deploy-failure"
+            description="Performs static analysis, runs the tests, and generates project documentation"/>
+
+    <target name="clean"
+            unless="clean.done"
+            description="Cleanup build artifacts">
+        <delete dir="${basedir}/build/api"/>
+        <delete dir="${basedir}/build/coverage"/>
+        <delete dir="${basedir}/build/logs"/>
+        <delete dir="${basedir}/build/pdepend"/>
+        <delete dir="${basedir}/build/phpmetrics"/>
+        <property name="clean.done" value="true"/>
+    </target>
+
+    <target name="prepare"
+            unless="prepare.done"
+            depends="clean"
+            description="Prepare for build">
+        <mkdir dir="${basedir}/build/api"/>
+        <mkdir dir="${basedir}/build/coverage"/>
+        <mkdir dir="${basedir}/build/logs"/>
+        <mkdir dir="${basedir}/build/pdepend"/>
+        <mkdir dir="${basedir}/build/phpmetrics"/>
+        <property name="prepare.done" value="true"/>
+    </target>
+
+    <target name="phpunit"
+            unless="phpunit.done"
+            depends="prepare"
+            description="Run unit tests with PHPUnit">
+        <exec executable="${phpunit}" resultproperty="result.phpunit" taskname="phpunit">
+            <arg value="--configuration"/>
+            <arg path="${basedir}/phpunit-ci.xml"/>
+        </exec>
+
+        <property name="phpunit.done" value="true"/>
+    </target>
+
+    <target name="phpdox"
+            unless="phpdox.done"
+            depends="prepare"
+            description="Generate project documentation using phpDox">
+        <exec executable="${phpdox}" dir="${basedir}" taskname="phpdox"/>
+
+        <property name="phpdox.done" value="true"/>
+    </target>
+
+    <target name="pdepend"
+            unless="pdepend.done"
+            depends="prepare"
+            description="Calculate software metrics using PHP_Depend and log result in XML format. Intended for usage within a continuous integration environment.">
+        <exec executable="${pdepend}" taskname="pdepend">
+            <arg value="--jdepend-xml=${basedir}/build/logs/jdepend.xml"/>
+            <arg value="--jdepend-chart=${basedir}/build/pdepend/dependencies.svg"/>
+            <arg value="--overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg"/>
+            <arg path="${basedir}/app"/>
+        </exec>
+
+        <property name="pdepend.done" value="true"/>
+    </target>
+
+    <target name="phploc"
+            unless="phploc.done"
+            depends="prepare"
+            description="Measure project size using PHPLOC and log result in CSV and XML format.">
+        <exec executable="${phploc}" taskname="phploc">
+            <arg value="--count-tests"/>
+            <arg value="--log-csv"/>
+            <arg path="${basedir}/build/logs/phploc.csv"/>
+            <arg value="--log-xml"/>
+            <arg path="${basedir}/build/logs/phploc.xml"/>
+            <arg value="--exclude"/>
+            <arg value="build"/>
+            <arg value="--exclude"/>
+            <arg value="public"/>
+            <arg value="--exclude"/>
+            <arg value="storage"/>
+            <arg value="--exclude"/>
+            <arg value="node_modules"/>
+            <arg value="--exclude"/>
+            <arg value="vendor"/>
+            <arg path="${basedir}"/>
+        </exec>
+        <property name="phploc.done" value="true"/>
+    </target>
+
+    <target name="phpmd"
+            unless="phpmd.done"
+            depends="prepare"
+            description="Perform project mess detection using PHPMD and log result in XML format.">
+        <exec executable="${phpmd}" taskname="phpmd">
+            <arg path="${basedir}/app"/>
+            <arg value="xml"/>
+            <arg path="${basedir}/phpmd.xml"/>
+            <arg value="--reportfile"/>
+            <arg path="${basedir}/build/logs/pmd.xml"/>
+        </exec>
+
+        <property name="phpmd.done" value="true"/>
+    </target>
+
+    <target name="phpcs"
+            unless="phpcs.done"
+            depends="prepare"
+            description="Find coding standard violations using PHP_CodeSniffer and log result in XML format.">
+        <exec executable="${phpcs}" output="/dev/null" taskname="phpcs">
+            <arg value="--report=checkstyle"/>
+            <arg value="--report-file=${basedir}/build/logs/checkstyle.xml"/>
+            <arg value="--standard=PSR2"/>
+            <arg value="--extensions=php"/>
+            <arg path="${basedir}/app"/>
+            <arg path="${basedir}/tests"/>
+        </exec>
+        <property name="phpcs.done" value="true"/>
+    </target>
+
+    <target name="phpcpd"
+            unless="phpcpd.done"
+            depends="prepare"
+            description="Find duplicate code using PHPCPD and log result in XML format.">
+        <exec executable="${phpcpd}" taskname="phpcpd">
+            <arg value="--log-pmd"/>
+            <arg path="${basedir}/build/logs/pmd-cpd.xml"/>
+            <arg path="${basedir}/app"/>
+        </exec>
+
+        <property name="phpcpd.done" value="true"/>
+    </target>
+
+    <target name="check-test-success">
+        <condition property="test.success">
+            <equals arg1="${result.phpunit}" arg2="0"/>
+        </condition>
+    </target>
+
+    <target name="check-test-failure" unless="${test.success}" depends="check-test-success">
+        <fail message="PHPUnit did not finish successfully"/>
+    </target>
+
+    <target name="deploy" if="test.success" depends="check-test-failure">
+        <exec executable="${deploy}" taskname="dep" resultproperty="result.deploy">
+            <arg value="deploy"/>
+            <arg value="-q"/>
+            <arg value="-n"/>
+        </exec>
+    </target>
+
+    <target name="check-deploy-success">
+        <condition property="deploy.success">
+            <equals arg1="${result.deploy}" arg2="0"/>
+        </condition>
+    </target>
+
+    <target name="check-deploy-failure" unless="${deploy.success}" depends="check-deploy-success">
+        <fail message="Deploy did not finish successfully"/>
+    </target>
+
+</project>

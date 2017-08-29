@@ -1,0 +1,3 @@
+<?php
+
+Route::resource('{kebabPluralName}', 'Web\{pluralPascalName}Controller', ['only' => ['index']]);

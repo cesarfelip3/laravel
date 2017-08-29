@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PDepend>
+  <Packages>
+    <Package name="App\Console">
+      <Stats>
+        <TotalClasses>1</TotalClasses>
+        <ConcreteClasses>1</ConcreteClasses>
+        <AbstractClasses>0</AbstractClasses>
+        <Ca>0</Ca>
+        <Ce>2</Ce>
+        <A>0</A>
+        <I>1</I>
+        <D>0</D>
+      </Stats>
+      <ConcreteClasses>
+        <Class sourceFile="/Users/dev2/Projects/blog55/app/Console/Kernel.php">Kernel</Class>
+      </ConcreteClasses>
+      <AbstractClasses/>
+      <DependsUpon>
+        <Package>Illuminate\Console\Scheduling</Package>
+        <Package>Illuminate\Foundation\Console</Package>
+      </DependsUpon>
+      <UsedBy/>
+    </Package>
+    <Package name="App\Exceptions">
+      <Stats>
+        <TotalClasses>1</TotalClasses>
+        <ConcreteClasses>1</ConcreteClasses>
+        <AbstractClasses>0</AbstractClasses>
+        <Ca>0</Ca>
+        <Ce>2</Ce>
+        <A>0</A>
+        <I>1</I>
+        <D>0</D>
+      </Stats>
+      <ConcreteClasses>
+        <Class sourceFile="/Users/dev2/Projects/blog55/app/Exceptions/Handler.php">Handler</Class>
+      </ConcreteClasses>
+      <AbstractClasses/>
+      <DependsUpon>
+        <Package></Package>
+        <Package>Illuminate\Foundation\Exceptions</Package>
+      </DependsUpon>
+      <UsedBy/>
+    </Package>
+    <Package name="App\Http\Controllers\Auth">
+      <Stats>
+        <TotalClasses>4</TotalClasses>
+        <ConcreteClasses>4</ConcreteClasses>
+        <AbstractClasses>0</AbstractClasses>
+        <Ca>0</Ca>
+        <Ce>3</Ce>
+        <A>0</A>
+        <I>1</I>
+        <D>0</D>
+      </Stats>
+      <ConcreteClasses>
+        <Class sourceFile="/Users/dev2/Projects/blog55/app/Http/Controllers/Auth/ForgotPasswordController.php">ForgotPasswordController</Class>
+        <Class sourceFile="/Users/dev2/Projects/blog55/app/Http/Controllers/Auth/LoginController.php">LoginController</Class>
+        <Class sourceFile="/Users/dev2/Projects/blog55/app/Http/Controllers/Auth/RegisterController.php">RegisterController</Class>
+        <Class sourceFile="/Users/dev2/Projects/blog55/app/Http/Controllers/Auth/ResetPasswordController.php">ResetPasswordController</Class>
+      </ConcreteClasses>
+      <AbstractClasses/>
+      <DependsUpon>
+        <Package>App</Package>
+        <Package>App\Http\Controllers</Package>
+        <Package>Illuminate\Support\Facades</Package>
+      </DependsUpon>
+      <UsedBy/>
+    </Package>
+    <Package name="App\Http\Controllers">
+      <Stats>
+        <TotalClasses>1</TotalClasses>
+        <ConcreteClasses>1</ConcreteClasses>
+        <AbstractClasses>0</AbstractClasses>
+        <Ca>1</Ca>
+        <Ce>1</Ce>
+        <A>0</A>
+        <I>0.5</I>
+        <D>0.5</D>
+      </Stats>
+      <ConcreteClasses>
+        <Class sourceFile="/Users/dev2/Projects/blog55/app/Http/Controllers/Controller.php">Controller</Class>
+      </ConcreteClasses>
+      <AbstractClasses/>
+      <DependsUpon>
+        <Package>Illuminate\Routing</Package>
+      </DependsUpon>
+      <UsedBy>
+        <Package>App\Http\Controllers\Auth</Package>
+      </UsedBy>
+    </Package>
+    <Package name="App\Http">
+      <Stats>
+        <TotalClasses>1</TotalClasses>
+        <ConcreteClasses>1</ConcreteClasses>
+        <AbstractClasses>0</AbstractClasses>
+        <Ca>0</Ca>
+        <Ce>1</Ce>
+        <A>0</A>
+        <I>1</I>
+        <D>0</D>
+      </Stats>
+      <ConcreteClasses>
+        <Class sourceFile="/Users/dev2/Projects/blog55/app/Http/Kernel.php">Kernel</Class>
+      </ConcreteClasses>
+      <AbstractClasses/>
+      <DependsUpon>
+        <Package>Illuminate\Foundation\Http</Package>
+      </DependsUpon>
+      <UsedBy/>
+    </Package>
+    <Package name="App\Http\Middleware">
+      <Stats>
+        <TotalClasses>5</TotalClasses>
+        <ConcreteClasses>5</ConcreteClasses>
+        <AbstractClasses>0</AbstractClasses>
+        <Ca>0</Ca>
+        <Ce>5</Ce>
+        <A>0</A>
+        <I>1</I>
+        <D>0</D>
+      </Stats>
+      <ConcreteClasses>
+        <Class sourceFile="/Users/dev2/Projects/blog55/app/Http/Middleware/EncryptCookies.php">EncryptCookies</Class>
+        <Class sourceFile="/Users/dev2/Projects/blog55/app/Http/Middleware/RedirectIfAuthenticated.php">RedirectIfAuthenticated</Class>
+        <Class sourceFile="/Users/dev2/Projects/blog55/app/Http/Middleware/TrimStrings.php">TrimStrings</Class>
+        <Class sourceFile="/Users/dev2/Projects/blog55/app/Http/Middleware/TrustProxies.php">TrustProxies</Class>
+        <Class sourceFile="/Users/dev2/Projects/blog55/app/Http/Middleware/VerifyCsrfToken.php">VerifyCsrfToken</Class>
+      </ConcreteClasses>
+      <AbstractClasses/>
+      <DependsUpon>
+        <Package></Package>
+        <Package>Fideloper\Proxy</Package>
+        <Package>Illuminate\Cookie\Middleware</Package>
+        <Package>Illuminate\Foundation\Http\Middleware</Package>
+        <Package>Illuminate\Support\Facades</Package>
+      </DependsUpon>
+      <UsedBy/>
+    </Package>
+    <Package name="App\Providers">
+      <Stats>
+        <TotalClasses>5</TotalClasses>
+        <ConcreteClasses>5</ConcreteClasses>
+        <AbstractClasses>0</AbstractClasses>
+        <Ca>0</Ca>
+        <Ce>3</Ce>
+        <A>0</A>
+        <I>1</I>
+        <D>0</D>
+      </Stats>
+      <ConcreteClasses>
+        <Class sourceFile="/Users/dev2/Projects/blog55/app/Providers/AppServiceProvider.php">AppServiceProvider</Class>
+        <Class sourceFile="/Users/dev2/Projects/blog55/app/Providers/AuthServiceProvider.php">AuthServiceProvider</Class>
+        <Class sourceFile="/Users/dev2/Projects/blog55/app/Providers/BroadcastServiceProvider.php">BroadcastServiceProvider</Class>
+        <Class sourceFile="/Users/dev2/Projects/blog55/app/Providers/EventServiceProvider.php">EventServiceProvider</Class>
+        <Class sourceFile="/Users/dev2/Projects/blog55/app/Providers/RouteServiceProvider.php">RouteServiceProvider</Class>
+      </ConcreteClasses>
+      <AbstractClasses/>
+      <DependsUpon>
+        <Package>Illuminate\Foundation\Support\Providers</Package>
+        <Package>Illuminate\Support</Package>
+        <Package>Illuminate\Support\Facades</Package>
+      </DependsUpon>
+      <UsedBy/>
+    </Package>
+    <Package name="App">
+      <Stats>
+        <TotalClasses>1</TotalClasses>
+        <ConcreteClasses>1</ConcreteClasses>
+        <AbstractClasses>0</AbstractClasses>
+        <Ca>1</Ca>
+        <Ce>1</Ce>
+        <A>0</A>
+        <I>0.5</I>
+        <D>0.5</D>
+      </Stats>
+      <ConcreteClasses>
+        <Class sourceFile="/Users/dev2/Projects/blog55/app/User.php">User</Class>
+      </ConcreteClasses>
+      <AbstractClasses/>
+      <DependsUpon>
+        <Package>Illuminate\Foundation\Auth</Package>
+      </DependsUpon>
+      <UsedBy>
+        <Package>App\Http\Controllers\Auth</Package>
+      </UsedBy>
+    </Package>
+  </Packages>
+  <Cycles/>
+</PDepend>

@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Repositories;
+
+use App\Presenters\{pascalName}Presenter;
+use Prettus\Repository\Eloquent\BaseRepository;
+use Prettus\Repository\Criteria\RequestCriteria;
+use App\Models\{pascalName};
+
+class {pascalName}RepositoryEloquent extends BaseRepository implements {pascalName}Repository
+{
+    public function model()
+    {
+        return {pascalName}::class;
+    }
+
+    public function presenter()
+    {
+        return {pascalName}Presenter::class;
+    }
+
+    public function boot()
+    {
+        $this->pushCriteria(app(RequestCriteria::class));
+    }
+}

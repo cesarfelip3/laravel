@@ -1,0 +1,56 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+use App\Repositories\{pascalName}Repository;
+use App\Http\Requests\{pascalName}CreateRequest;
+use App\Http\Requests\{pascalName}UpdateRequest;
+
+class {pluralPascalName}Controller extends Controller
+{
+    protected $repository;
+
+    public function __construct({pascalName}Repository $repository)
+    {
+        $this->repository = $repository;
+    }
+
+    public function index()
+    {
+        return $this->ok($this->repository->all());
+    }
+
+    public function store({pascalName}CreateRequest $request)
+    {
+        $obj = $this->repository->create($request->all());
+
+        $response = [
+            'message' => '{pascalName} created.',
+            'data' => $obj,
+        ];
+
+        return $this->ok($response);
+    }
+
+    public function update({pascalName}UpdateRequest $request, $id)
+    {
+        $obj = $this->repository->update($request->all(), $id);
+
+        $response = [
+            'message' => '{pascalName} updated.',
+            'data' => $obj,
+        ];
+
+        return $this->ok($response);
+    }
+
+    public function destroy($id)
+    {
+        $deleted = $this->repository->delete($id);
+        return $this->ok([
+            'message' => '{pascalName} deleted.',
+            'deleted' => $deleted,
+        ]);
+    }
+}

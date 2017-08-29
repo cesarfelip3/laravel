@@ -1,0 +1,3 @@
+<?php
+
+Route::resource('{kebabName}', 'Api\{pluralPascalName}Controller', ['except' => ['show', 'create', 'edit']]);

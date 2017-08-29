@@ -1,0 +1,44 @@
+// Google Fonts
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700");
+
+// Variables
+@import "theme/variables";
+
+// Vendors
+@import "vendor";
+
+// Utils
+@import "mixins";
+@import "placeholders";
+
+// Layout
+@import "theme/typography";
+@import "theme/navigation";
+@import "theme/top_navigation";
+@import "theme/buttons";
+@import "theme/badges_labels";
+@import "theme/elements";
+@import "theme/sidebar";
+@import "theme/base";
+@import "theme/pages";
+//@import "chat";
+@import "theme/metismenu";
+@import "theme/spinners";
+
+// INSPINIA Skins
+@import "theme/skins";
+
+// Media query style
+@import "theme/media";
+
+// Clear layout on print mode
+@media print {
+  nav.navbar-static-side {
+    display: none;
+  }
+  body { overflow: visible !important; }
+
+  #page-wrapper {
+    margin: 0;
+  }
+}
