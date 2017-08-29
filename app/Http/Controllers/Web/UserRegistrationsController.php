@@ -3,17 +3,14 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Requests\UserRegistrationRequest;
-use App\Repositories\UserRepository;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 
 class UserRegistrationsController extends Controller
 {
-    public function __invoke(
-        UserRepository $repository,
-        UserRegistrationRequest $request
-    )
+    public function __invoke(UserRegistrationRequest $request)
     {
-        $user = $repository->getUserByToken(request('invitation_token'));
+        $user = User::byToken(request('invitation_token'));
 
         if (!$user)
             return route('home');

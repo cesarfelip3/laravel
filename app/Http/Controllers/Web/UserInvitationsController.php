@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Repositories\UserRepository;
-use Illuminate\Http\Request;
+use App\Models\User;
 use App\Http\Controllers\Controller;
-use Session;
 
 class UserInvitationsController extends Controller
 {
-    public function __invoke(UserRepository $repository, $token)
+    public function __invoke($token)
     {
-        $isValid = $repository->invitationTokenIsValid($token);
+        $isValid = User::invitationTokenIsValid($token);
 
         return view('auth.invitation', compact('isValid', 'token'));
     }
