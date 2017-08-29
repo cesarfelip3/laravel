@@ -17,5 +17,21 @@
         "laravel-mix": "^1.0",
         "lodash": "^4.17.4",
         "vue": "^2.1.10"
+    },
+    "dependencies": {
+        "animate.css": "^3.5.2",
+        "font-awesome": "^4.7.0",
+        "jquery-slimscroll": "^1.3.8",
+        "jquery-sparkline": "^2.4.0",
+        "metismenu": "^2.7.0",
+        "pace": "0.0.4",
+        "pixeden-stroke-7-icon": "^1.2.3",
+        "rimraf": "^2.6.1",
+        "sortablejs": "^1.5.1",
+        "sparkline": "^0.2.0",
+        "sweetalert": "^1.1.3",
+        "toastr": "^2.1.2",
+        "vue-js-toggle-button": "^1.1.0",
+        "vue-multiselect": "^2.0.0-beta.15"
     }
 }

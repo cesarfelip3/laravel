@@ -37,17 +37,6 @@
                             <li>
                                 {{ auth()->user()->name }}
                             </li>
-                            <li class="dropdown">
-                                <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                                    <i class="fa fa-tasks"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-messages">
-                                    <div class="p-sm">
-                                        <a href="{{route('github.index')}}">Github</a>
-                                    </div>
-                                </div>
-                            </li>
-
                             <li>
                                 <a href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
