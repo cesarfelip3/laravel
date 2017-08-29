@@ -95,8 +95,11 @@ class UsersControllerTest extends TestCase
         $arrayUser = $newUser->toArray();
         $role = $this->createUserRole();
         $arrayUser['role'] = $role->toArray();
+        $postRequest = $this->post(route('api.user.store'), $arrayUser);
+        $newUser = $postRequest->decodeResponseJson()['data'];
+        $newUser = User::find($newUser['id']);
         return (object)[
-            'response' => $this->post(route('api.user.store'), $arrayUser),
+            'response' => $postRequest,
             'user' => $newUser
         ];
     }

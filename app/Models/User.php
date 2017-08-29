@@ -60,14 +60,18 @@ class User extends Authenticatable
     #region Conversions
     public function toArray()
     {
+        $role = [];
+        if ($this->role) {
+            $role = [
+                'id' => $this->role->id,
+                'name' => $this->role->name
+            ];
+        }
         return [
             'id' => (int)$this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'role' => [
-                'id' => $this->role->id,
-                'name' => $this->role->name
-            ],
+            'role' => $role,
             'status' => $this->status,
             'pending' => $this->invitation_token != null
         ];
