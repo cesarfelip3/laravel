@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\Traits\{pascalName}Request;
 use Illuminate\Foundation\Http\FormRequest;
 
 class {pascalName}UpdateRequest extends FormRequest
