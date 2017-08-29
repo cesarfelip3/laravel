@@ -41,7 +41,7 @@ class Scaffolding extends Command
         $this->lowerName = strtolower($this->name);       // foobar
         $this->pluralName = str_plural($this->name);       // Poobar
         $this->camelCaseName = camel_case($this->name);       // fooBar
-        $this->camelCasePluralName = $this->camelCaseName;             // fooBars
+        $this->camelCasePluralName = str_plural($this->camelCaseName);             // fooBars
         $this->pascalName = $this->name;                   // FooBar
         $this->pluralPascalName = $this->pluralName;             // Foobars
         $this->kebabName = kebab_case($this->name);       // foo-bar
