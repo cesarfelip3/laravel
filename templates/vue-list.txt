@@ -83,7 +83,8 @@
             },
 
             formSaved({camelCaseName}) {
-                this.reload();
+                let index = this.findIndex({camelCaseName});
+                index > -1 ? this.{camelCasePluralName}[index] = user : this.{camelCasePluralName}.push({camelCaseName});
             },
 
             destroy({camelCaseName}) {
