@@ -17,7 +17,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                         <tr v-for="( {lowerName}, index ) in {pluralName}">
+                         <tr v-for="( {lowerName}, index ) in {camelCasePluralName}">
                             <td>{{ index + 1 }}</td>
                             <td>{{ {lowerName}.id }}</td>
                             <td>
