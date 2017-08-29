@@ -440,7 +440,7 @@ EOF;
 \tpublic function {$camelCase}()
 \t{
 \t\t\t\$id = \$this->get('{$fieldName}');
-\t\t\t\$user = \App\Models\{$pascalName}::findOrFail(\$id);
+\t\t\t\$user = \App\Models\\{$pascalName}::findOrFail(\$id);
 \t\t\treturn \${$camelCase};
 \t}
 
