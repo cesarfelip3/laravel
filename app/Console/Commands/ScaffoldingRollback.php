@@ -118,14 +118,14 @@ class ScaffoldingRollback extends Command
 
     private function repository()
     {
-        $this->deleteFile('app/Repositories', $this->pascalName, 'Repository');
-        $this->info('Repository deleted!');
+        $this->deleteFile('app/Repositories', $this->pascalName, 'Services');
+        $this->info('Services deleted!');
     }
 
     private function repositoryEloquent()
     {
         $this->deleteFile('app/Repositories', $this->pascalName, 'RepositoryEloquent');
-        $this->info('Repository Eloquent deleted!');
+        $this->info('Services Eloquent deleted!');
     }
 
     private function makeVueDirectory()

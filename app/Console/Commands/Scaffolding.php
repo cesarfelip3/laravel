@@ -145,14 +145,14 @@ class Scaffolding extends Command
 
     private function repository()
     {
-        $this->generateFile('repository', 'app/Repositories', $this->pascalName, 'Repository');
-        $this->info('Repository generated!');
+        $this->generateFile('repository', 'app/Repositories', $this->pascalName, 'Services');
+        $this->info('Services generated!');
     }
 
     private function repositoryEloquent()
     {
         $this->generateFile('repository-eloquent', 'app/Repositories', $this->pascalName, 'RepositoryEloquent');
-        $this->info('Repository Eloquent generated!');
+        $this->info('Services Eloquent generated!');
     }
 
     private function makeVueDirectory()
@@ -357,7 +357,7 @@ EOF;
     {
         $repositoryServiceProvider = base_path() . '/app/Providers/RepositoryServiceProvider.php';
         $contents = file($repositoryServiceProvider);
-        $template = "\t\t\$this->app->bind(\\App\\Repositories\\{$this->pascalName}Repository::class, \\App\\Repositories\\{$this->pascalName}RepositoryEloquent::class);\n";
+        $template = "\t\t\$this->app->bind(\\App\\Repositories\\{$this->pascalName}Services::class, \\App\\Repositories\\{$this->pascalName}RepositoryEloquent::class);\n";
         $newFile = '';
         $firstBindFounded = false;
         $templateAdded = false;
@@ -379,7 +379,7 @@ EOF;
 
 
         File::put($repositoryServiceProvider, $newFile);
-        $this->info('Repository Service Provider Updated!');
+        $this->info('Services Service Provider Updated!');
     }
 
     private function updateBootstrapJs()
