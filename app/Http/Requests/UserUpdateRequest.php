@@ -6,6 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UserUpdateRequest extends FormRequest
 {
+    use UserRequest;
+
     public function authorize()
     {
         return true;

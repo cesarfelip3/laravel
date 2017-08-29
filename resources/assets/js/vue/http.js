@@ -29,6 +29,7 @@ module.exports = {
                         for (let index in response.data) {
                             if (isNaN(index)) continue;
                             let item = response.data[index];
+                            item.editForm = new SlcForm({});
                             item.destroyForm = new SlcForm({});
                             items.push(item);
                         }
@@ -107,6 +108,10 @@ module.exports = {
                     }
                     if (data.message) {
                         toastr.success('', data.message);
+                    }
+                    if( _.has(data, 'data') ) {
+                        data.data.editForm = new SlcForm({});
+                        data.data.destroyForm = new SlcForm({});
                     }
                     resolve(data);
                 })

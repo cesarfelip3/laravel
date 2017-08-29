@@ -11,6 +11,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\UserCreated' => [
             'App\Listeners\SendInvitation',
         ],
+        'App\Events\UserUpdated' => [
+            'App\Listeners\SendInvitation',
+        ],
     ];
 
     public function boot()

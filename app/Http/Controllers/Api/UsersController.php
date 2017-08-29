@@ -35,9 +35,9 @@ class UsersController extends Controller
         return $response;
     }
 
-    public function update(UserUpdateRequest $request, $id)
+    public function update(UserUpdateRequest $request, User $user)
     {
-        $obj = $this->repository->update($request->all(), $id);
+        $obj = $this->service->update($request, $user);
 
         $response = [
             'message' => 'User updated.',

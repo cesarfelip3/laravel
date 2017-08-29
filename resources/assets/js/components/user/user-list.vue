@@ -89,7 +89,6 @@
             },
 
             add() {
-                console.log('add');
                 this.$refs.form.show();
             },
 
@@ -106,8 +105,8 @@
             },
 
             formSaved(user) {
-                this.reload();
-                // TODO: reload only one element
+                let index = this.findIndex(user);
+                index > -1 ? this.users[index] = user : this.users.push(user);
             },
 
             destroy(user) {

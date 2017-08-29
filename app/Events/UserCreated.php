@@ -12,9 +12,11 @@ class UserCreated
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $user;
+    public $sendInvite;
 
     public function __construct(User $user)
     {
         $this->user = $user;
+        $this->sendInvite = true;
     }
 }

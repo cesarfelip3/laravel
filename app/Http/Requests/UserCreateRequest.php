@@ -6,6 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UserCreateRequest extends FormRequest
 {
+    use UserRequest;
+
     public function authorize()
     {
         return true;
@@ -19,23 +21,4 @@ class UserCreateRequest extends FormRequest
             'role' => 'required'
         ];
     }
-
-    public function name()
-    {
-        return $this->get('name');
-    }
-
-    public function email()
-    {
-        return $this->get('email');
-    }
-
-    public function role()
-    {
-        $role = (object) $this->get('role');
-
-        return \Defender::findRoleById($role->id);
-    }
-
-
 }
