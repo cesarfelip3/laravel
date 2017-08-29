@@ -78,7 +78,7 @@
       "@php artisan clear-compiled",
       "@php artisan ide-helper:generate",
       "@php artisan optimize",
-      "@php artisan project:setup"
+      "php artisan project:setup"
     ],
     "post-autoload-dump": [
       "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
