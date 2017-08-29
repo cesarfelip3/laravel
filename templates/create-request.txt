@@ -6,6 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class {pascalName}CreateRequest extends FormRequest
 {
+    use {pascalName}Request;
+
     public function authorize()
     {
         return true;

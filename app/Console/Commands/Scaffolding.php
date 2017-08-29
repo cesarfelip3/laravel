@@ -74,6 +74,7 @@ class Scaffolding extends Command
                 $this->controller();
                 $this->apiRoute();
                 $this->route();
+                $this->traitRequest();
                 $this->createRequest();
                 $this->updateRequest();
                 $this->makeVueDirectory();
@@ -117,6 +118,12 @@ class Scaffolding extends Command
     {
         $this->generateFile('route', 'app/Routes/auth', $this->kebabName);
         $this->info('Route generated!');
+    }
+
+    private function traitRequest()
+    {
+        $this->generateFile('trait-request', 'app/Http/Requests/Traits', $this->pascalName, 'Request');
+        $this->info('Trait Request generated!');
     }
 
     private function createRequest()
@@ -209,6 +216,7 @@ class Scaffolding extends Command
         $compiledModel = str_replace('{snakePluralName}', $this->snakePluralName, $compiledModel);
         $compiledModel = str_replace('{pascalName}', $this->pascalName, $compiledModel);
         if (!is_null($this->columnsInformation)) {
+            $compiledModel = str_replace('{traitRequestFields}', $this->getTraitRequestFields(), $compiledModel);
             $compiledModel = str_replace('{fillable}', $this->getFillables(), $compiledModel);
             $compiledModel = str_replace('{casts}', $this->getCasts(), $compiledModel);
             $compiledModel = str_replace('{relationships}', $this->getRelationships(), $compiledModel);
@@ -335,6 +343,28 @@ EOF;
     private function getRelationships()
     {
         return '';
+    }
+
+    private function getTraitRequestFields()
+    {
+        $results = '';
+        foreach ($this->columnsInformation as $column) {
+            if (in_array($column->Field, $this->unnecessaryColumns)) {
+                continue;
+            }
+            $camelCase = camel_case($column->Field);
+            $snakeCase = $column->Field;
+            $string = <<<EOF
+            public function {$camelCase}()
+            {
+                return \$this->get('{$snakeCase}');
+            }                           
+EOF;
+
+            $results .= $string . PHP_EOL;
+        }
+
+        return $results;
     }
 
     private function getCreateFields()
