@@ -410,7 +410,7 @@ EOF;
             $camelCase = camel_case($fieldName);
             $pascalName = ucwords($fieldName);
             $string = <<<EOF
-\tpublic function {$camelCase}()
+public function {$camelCase}()
 \t{
 \t\treturn \$this->belongsTo({$pascalName}::class);
 \t}
