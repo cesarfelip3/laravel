@@ -70,6 +70,9 @@ class Scaffolding extends Command
             default:
                 $this->model();
                 $this->service();
+                $this->eventCreate();
+                $this->eventUpdate();
+                $this->eventDelete();
                 $this->apiController();
                 $this->controller();
                 $this->apiRoute();
@@ -142,6 +145,24 @@ class Scaffolding extends Command
     {
         $this->generateFile('service', 'app/Services', $this->pascalName, 'Service');
         $this->info('Service generated!');
+    }
+
+    private function eventCreate()
+    {
+        $this->generateFile('event-create', 'app/Events', $this->pascalName, 'Created');
+        $this->info('Event Created generated!');
+    }
+
+    private function eventUpdate()
+    {
+        $this->generateFile('event-update', 'app/Events', $this->pascalName, 'Updated');
+        $this->info('Event Updated generated!');
+    }
+
+    private function eventDelete()
+    {
+        $this->generateFile('event-delete', 'app/Events', $this->pascalName, 'Deleted');
+        $this->info('Event Deleted generated!');
     }
 
     private function makeVueDirectory()

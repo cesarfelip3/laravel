@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Events;
+
+use App\Models\{pascalName};
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Broadcasting\InteractsWithSockets;
+
+class {pascalName}Deleted
+{
+    use Dispatchable, InteractsWithSockets, SerializesModels;
+
+    public ${camelCaseName};
+    public $sendInvite;
+
+    public function __construct({pascalName} ${camelCaseName})
+    {
+        $this->{camelCaseName} = ${camelCaseName};
+    }
+}
