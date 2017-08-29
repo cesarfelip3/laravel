@@ -24,7 +24,15 @@ class UsersController extends Controller
 
     public function store(UserCreateRequest $request)
     {
-        $this->dispatchNow(CreateUser::fromRequest($request));
+        //
+
+//        $user = new User(['name' => $this->name, 'email' => $this->email]);
+//        $user->invitation_token = hash_hmac('sha256', str_random(40), config('APP_KEY'));
+//        $user->save();
+//        $user->attachRole($this->role);
+//
+//        event(new UserCreated($user));
+
 
         $response = [
             'message' => 'User created.'
