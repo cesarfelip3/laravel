@@ -35,9 +35,9 @@ class {pluralPascalName}Controller extends Controller
         return $response;
     }
 
-    public function update({pascalName}UpdateRequest $request, {pascalName} $user)
+    public function update({pascalName}UpdateRequest $request, {pascalName} ${camelCaseName})
     {
-        $obj = $this->service->update($request, $user);
+        $obj = $this->service->update($request, ${camelCaseName});
 
         $response = [
             'message' => '{pascalName} updated.',
@@ -47,9 +47,9 @@ class {pluralPascalName}Controller extends Controller
         return $response;
     }
 
-    public function destroy({pascalName} $user)
+    public function destroy({pascalName} ${camelCaseName})
     {
-        $this->service->delete($user);
+        $this->service->delete(${camelCaseName});
 
         return [
             'message' => '{pascalName} deleted.'

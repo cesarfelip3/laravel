@@ -31,7 +31,7 @@ class {pascalName} extends Model
     public function toArray()
     {
         return [
-            'id' => (int)$this->id,{transformerFields}
+            'id' => $this->id,{transformerFields}
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];
