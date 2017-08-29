@@ -16,6 +16,9 @@ class {pascalName} extends Model implements Transformable
     protected $casts = [{casts}
     ];
 
+    protected $dates = [{dates}
+    ];
+
     #region Relationships
     {relationships}
     #region

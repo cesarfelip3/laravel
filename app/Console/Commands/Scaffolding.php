@@ -240,6 +240,7 @@ class Scaffolding extends Command
             $compiledModel = str_replace('{traitRequestFields}', $this->getTraitRequestFields(), $compiledModel);
             $compiledModel = str_replace('{fillable}', $this->getFillables(), $compiledModel);
             $compiledModel = str_replace('{casts}', $this->getCasts(), $compiledModel);
+            $compiledModel = str_replace('{dates}', $this->getDateFields(), $compiledModel);
             $compiledModel = str_replace('{relationships}', $this->getRelationships(), $compiledModel);
             $compiledModel = str_replace('{createFields}', $this->getCreateFields(), $compiledModel);
             $compiledModel = str_replace('{updateFields}', $this->getUpdateFields(), $compiledModel);
@@ -378,8 +379,21 @@ EOF;
             }
             $castTo = $this->castTo($column);
             if( $castTo ) {
-                $results .= PHP_EOL . "\t\t'{$column->Field}' => {$castTo},";
+                $results .= PHP_EOL . "\t\t'{$column->Field}' => '{$castTo}',";
             }
+        }
+
+        return $results;
+    }
+
+    private function getDateFields()
+    {
+        $results = '';
+        foreach ($this->columnsInformation as $column) {
+            if (in_array($column->Field, $this->unnecessaryColumns) or $column->Field != 'date') {
+                continue;
+            }
+            $results .= PHP_EOL . "\t\t'{$column->Field}',";
         }
 
         return $results;
