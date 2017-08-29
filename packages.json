@@ -14,7 +14,7 @@
       "1.0.0": {
         "name": "cesarfelip3/laravel",
         "source": {
-          "reference": "a3e835cd2b5c6e1d826fc715a8de5568120985a3",
+          "reference": "HEAD",
           "type": "git",
           "url": "https://github.com/cesarfelip3/laravel.git"
         },
