@@ -444,6 +444,7 @@ EOF;
 \t\t\treturn \${$camelCase};
 \t}
 
+
 EOF;
             } else {
                 $string = <<<EOF
@@ -451,6 +452,7 @@ EOF;
 \t{
 \t\treturn \$this->get('{$snakeCase}');
 \t}
+
 
 EOF;
             }
