@@ -11,7 +11,6 @@ class UsersTableSeeder extends Seeder
         if (app()->environment('local')) {
             $this->createAdminUsers();
             $this->createUserUsers();
-            $this->createClientUsers();
         }
     }
 
@@ -43,17 +42,6 @@ class UsersTableSeeder extends Seeder
         $role = Defender::findRole('user');
 
         factory(\App\Models\User::class, 5)
-            ->create()
-            ->each(function (User $user) use ($role) {
-                $user->attachRole($role);
-            });
-    }
-
-    private function createClientUsers()
-    {
-        $role = Defender::findRole('client');
-
-        factory(\App\Models\User::class, 20)
             ->create()
             ->each(function (User $user) use ($role) {
                 $user->attachRole($role);

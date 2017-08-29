@@ -14,9 +14,28 @@ class UserCreateRequest extends FormRequest
     public function rules()
     {
         return [
-			'name' => 'required',
-			'email' => 'required|email|unique:users,email',
-			'role' => 'required'
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'role' => 'required'
         ];
     }
+
+    public function name()
+    {
+        return $this->get('name');
+    }
+
+    public function email()
+    {
+        return $this->get('email');
+    }
+
+    public function role()
+    {
+        $role = (object) $this->get('role');
+
+        return \Defender::findRoleById($role->id);
+    }
+
+
 }

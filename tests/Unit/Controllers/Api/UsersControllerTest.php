@@ -6,10 +6,9 @@ use App\Events\UserCreated;
 use App\Models\User;
 use App\Notifications\UserInvited;
 use Event;
-use Illuminate\Foundation\Testing\TestResponse;
-use Illuminate\Support\Facades\Bus;
 use Notification;
 use Symfony\Component\HttpFoundation\Response;
+use Tests\CreatesUsers;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
@@ -89,5 +88,16 @@ class UsersControllerTest extends TestCase
         $response->assertSuccessful();
     }
 
-
+    protected function createUserUsingTheApi(): \stdClass
+    {
+        $this->loginAsAdmin();
+        $newUser = factory(User::class)->make(['name' => 'Jeremias']);
+        $arrayUser = $newUser->toArray();
+        $role = $this->createUserRole();
+        $arrayUser['role'] = $role->toArray();
+        return (object)[
+            'response' => $this->post(route('api.user.store'), $arrayUser),
+            'user' => $newUser
+        ];
+    }
 }

@@ -6,36 +6,31 @@ use App\Events\UserCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
+use App\Jobs\CreateUser;
+use App\Models\User;
 use App\Notifications\UserInvited;
-use App\Repositories\UserRepository;
 
 class UsersController extends Controller
 {
-    protected $repository;
-
-    public function __construct(UserRepository $repository)
+    public function __construct()
     {
         $this->middleware('needsRole:admin');
-
-        $this->repository = $repository;
     }
 
     public function index()
     {
-        return $this->ok($this->repository->getNonClients());
+        return User::all();
     }
 
     public function store(UserCreateRequest $request)
     {
-        $user = $this->repository->skipPresenter()->create($request->all());
+        $this->dispatchNow(CreateUser::fromRequest($request));
 
         $response = [
             'message' => 'User created.'
         ];
 
-        event(new UserCreated($user));
-
-        return $this->ok($response);
+        return $response;
     }
 
     public function update(UserUpdateRequest $request, $id)

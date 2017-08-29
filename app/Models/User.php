@@ -33,7 +33,6 @@ class User extends Authenticatable
         'status' => 'boolean'
     ];
 
-
     #region Attributes
     public function getRoleAttribute()
     {
@@ -73,5 +72,7 @@ class User extends Authenticatable
             'pending' => $this->invitation_token != null
         ];
     }
+
+
     #endregion
 }

@@ -18,23 +18,18 @@ class RolesController extends Controller
 
     public function index()
     {
-        try {
-            $roles = null;
+        $roles = null;
 
-            if (Defender::is('slc'))
-                $roles = $this->rolesForSlc();
+        if (Defender::is('slc'))
+            $roles = $this->rolesForSlc();
 
-            if (Defender::is('admin'))
-                $roles = $this->rolesForAdmin();
+        if (Defender::is('admin'))
+            $roles = $this->rolesForAdmin();
 
-            if (Defender::is('user'))
-                $roles = $this->rolesForUser();
+        if (Defender::is('user'))
+            $roles = $this->rolesForUser();
 
-            return $this->parseResult($roles);
-        } catch (\Exception $e) {
-            return $this->fatal($e);
-        }
-
+        return $this->parseResult($roles);
     }
 
     private function rolesForSlc()
