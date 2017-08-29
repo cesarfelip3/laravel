@@ -12,7 +12,6 @@ class {pascalName}Updated
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public ${camelCaseName};
-    public $sendInvite;
 
     public function __construct({pascalName} ${camelCaseName})
     {

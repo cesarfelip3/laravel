@@ -398,7 +398,7 @@ EOF;
             }
             $field = camel_case($column->Field);
 
-            $results .= PHP_EOL . "\t\t\t'{$column->Field}' => \$request->{$field}(),";
+            $results .= PHP_EOL . "\t\t\t\t'{$column->Field}' => \$request->{$field}(),";
         }
 
         return $results;
