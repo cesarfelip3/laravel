@@ -12,10 +12,9 @@ class User extends Authenticatable
 {
     use Notifiable, HasApiTokens, HasDefender;
 
-    const SUPERADMIN = 'slc';
+    const SUPER_ADMIN = 'slc';
     const ADMIN = 'admin';
     const USER = 'user';
-    const CLIENT = 'client';
 
     protected $fillable = [
         'name',
@@ -46,7 +45,7 @@ class User extends Authenticatable
             'name' => $this->name,
             'email' => $this->email,
             'role' => [
-                'id' => $this->role->id,
+                'id' => (int)$this->role->id,
                 'name' => $this->role->name
             ],
             'status' => $this->status,
