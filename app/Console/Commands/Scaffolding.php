@@ -358,7 +358,8 @@ EOF;
 \tpublic function {$camelCase}()
 \t{
 \t\treturn \$this->get('{$snakeCase}');
-\t}                           
+\t}
+
 EOF;
 
             $results .= $string . PHP_EOL;
