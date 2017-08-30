@@ -5,8 +5,7 @@
             <modal-body>
                 <row>
                     <column size="12">
-{vueFormFields}
-                    </column>
+{vueFormFields}</column>
                 </row>
             </modal-body>
 
