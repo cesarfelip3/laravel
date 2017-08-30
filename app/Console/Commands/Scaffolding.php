@@ -250,6 +250,7 @@ class Scaffolding extends Command
             $compiledModel = str_replace('{vueListTh}', $this->getVueListTh(), $compiledModel);
             $compiledModel = str_replace('{vueListTd}', $this->getVueListTd(), $compiledModel);
             $compiledModel = str_replace('{vueFormFields}', $this->getVueFormFields(), $compiledModel);
+            $compiledModel = str_replace('{vueFormImports}', $this->getVueFormImports(), $compiledModel);
             $compiledModel = str_replace('{vueFormFieldsJs}', $this->getVueFormFieldsJs(), $compiledModel);
             $compiledModel = str_replace('{vueTableColumns}', $this->getVueTableColumns(), $compiledModel);
             $compiledModel = str_replace('{transformerFields}', $this->getTransformerFields(), $compiledModel);
@@ -347,6 +348,23 @@ class Scaffolding extends Command
         return $results;
     }
 
+    public function getVueFormImports()
+    {
+        $results = '';
+        foreach ($this->columnsInformation as $column) {
+            if (in_array($column->Field, $this->unnecessaryColumns) or ! ends_with($column->Field, '_id')) {
+                continue;
+            }
+            $columnField = substr($column->Field, 0, -3);
+            $pascalCase = ucwords(str_replace('_','',$columnField));
+            $kebabCase = kebab_case($columnField);
+
+            $results .= PHP_EOL . "\timport {$pascalCase}Select from '../{$kebabCase}/{$kebabCase}-select';";
+        }
+
+        return $results;
+
+    }
     private function getVueListTd()
     {
         $results = '';
@@ -373,7 +391,6 @@ class Scaffolding extends Command
                 continue;
             }
             $titledField = title_case($column->Field);
-            // TODO: relationships
             $field = '';
             if (ends_with($column->Field, '_id')) {
                 $columnField = substr($column->Field, 0, -3);
