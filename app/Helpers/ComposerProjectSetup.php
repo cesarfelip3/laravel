@@ -10,6 +10,18 @@ class ComposerProjectSetup
     public static function postProjectCrete(Event $event)
     {
         $vendorDir = $event->getComposer()->getConfig()->get('vendor-dir');
-        $event->getIO()->write('run "php artisan project:setup"');
+
+        $msg = <<<msg
+        \n\n
+************************************\n
+SUCCESS!
+cd to your project and run:
+
+     "php artisan project:setup"
+
+************************************\n
+\n
+msg;
+        $event->getIO()->write($msg);
     }
 }
