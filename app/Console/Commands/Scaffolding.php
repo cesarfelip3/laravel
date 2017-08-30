@@ -381,8 +381,9 @@ class Scaffolding extends Command
 
         if( strlen($components) ) {
             $results = <<<EOF
-\tcomponents: \{$components
-\t},
+            
+\t\tcomponents: {{$components}
+\t\t},
 EOF;
 
         }
