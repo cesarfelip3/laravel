@@ -31,6 +31,11 @@ class ProjectSetup extends Command
 
         $default = kebab_case($dir);
         updateEnv(['DEPLOY_STAGE_FOLDER' => $this->ask("DEPLOY_STAGE_FOLDER?", "/home/forge/{$default}.clevermage.com")]);
+
+        if ($this->confirm('Would you like to run migration (and seed)?')) {
+            \Artisan::call('migrate -seed');
+        }
+
     }
 
 
