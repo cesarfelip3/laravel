@@ -46,7 +46,7 @@ cmd;
         }
 
         if ($this->confirm('Would you like to run migration (and seed)?', true)) {
-            \Artisan::call('migrate --seed');
+            \Artisan::call('migrate', ['--seed' => '']);
         }
 
     }
