@@ -43,14 +43,15 @@ class ProjectSetup extends Command
             mysql -u {$env['DB_USERNAME']} $password -e "drop database if exists {$env['DB_DATABASE']}; create database {$env['DB_DATABASE']};"
 cmd;
             shell_exec($cmd);
-        }
 
-        if ($this->confirm('Would you like to run migration (and seed)?', true)) {
-            \Artisan::call('cache:clear');
-            \Artisan::call('config:cache');
-            shell_exec("php artisan migrate -seed");
+            $msg = <<<msg
+********************
+GREAT! ALMOST THERE.
+run:
+    php artisan migrate --seed
+********************
+msg;
+            $this->info($msg);
         }
     }
-
-
 }
