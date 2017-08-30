@@ -356,7 +356,7 @@ class Scaffolding extends Command
             }
             $columnField = $column->Field;
             if (ends_with($column->Field, '_id')) {
-                $columnField = substr($column->Field, 0, -3) . ".name";
+                $columnField = camel_case(substr($column->Field, 0, -3)) . ".name";
             }
 
             $results .= PHP_EOL . "\t\t\t\t\t\t\t<td>{{ {$this->lowerName}.{$columnField} }}</td>";
@@ -559,6 +559,10 @@ EOF;
                 continue;
             }
             $results .= PHP_EOL . "\t\t\t'$column->Field' => \$this->$column->Field,";
+            if( ends_with($column->Field, '_id') ) {
+                $fieldName = camel_case(substr($column->Field, 0, -3));
+                $results .= PHP_EOL . "\t\t\t'{$fieldName}' => \$this->{$fieldName}->toArray(),";
+            }
         }
 
         return $results;
