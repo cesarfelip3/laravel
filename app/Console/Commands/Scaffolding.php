@@ -455,7 +455,7 @@ EOF;
             if (in_array($column->Field, $this->unnecessaryColumns)) {
                 continue;
             }
-            $results .= PHP_EOL . "\t\t\t$column->Field: $this->snakeName ? $this->snakeName.$column->Field : null,";
+            $results .= PHP_EOL . "\t\t\t\t\t$column->Field: $this->snakeName ? $this->snakeName.$column->Field : null,";
         }
 
         return $results;
