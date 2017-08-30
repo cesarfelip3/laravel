@@ -80,7 +80,9 @@
       "php artisan storage:link",
       "php artisan clear-compiled",
       "php artisan ide-helper:generate",
-      "php artisan optimize"
+      "php artisan optimize",
+      "yarn install",
+      "yarn run dev"
     ],
     "post-root-package-install": [
       "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
