@@ -340,7 +340,7 @@ class Scaffolding extends Command
                 $columnField = substr($column->Field, 0, -3);
             }
 
-            $field = ucwords(str_replace('_', '', $columnField));
+            $field = ucwords(str_replace('_', ' ', $columnField));
             $results .= PHP_EOL . "\t\t\t\t\t\t\t<th>{$field}</th>";
         }
 
