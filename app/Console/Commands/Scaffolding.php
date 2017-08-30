@@ -237,6 +237,7 @@ class Scaffolding extends Command
         $compiledModel = str_replace('{snakePluralName}', $this->snakePluralName, $compiledModel);
         $compiledModel = str_replace('{pascalName}', $this->pascalName, $compiledModel);
         if (!is_null($this->columnsInformation)) {
+
             $compiledModel = str_replace('{traitRequestFields}', $this->getTraitRequestFields(), $compiledModel);
             $compiledModel = str_replace('{fillable}', $this->getFillables(), $compiledModel);
             $compiledModel = str_replace('{casts}', $this->getCasts(), $compiledModel);
@@ -246,6 +247,8 @@ class Scaffolding extends Command
             $compiledModel = str_replace('{createRelationshipsFields}', $this->getCreateRelationshipsFields(), $compiledModel);
             $compiledModel = str_replace('{updateFields}', $this->getUpdateFields(), $compiledModel);
             $compiledModel = str_replace('{rules}', $this->getRules(), $compiledModel);
+            $compiledModel = str_replace('{vueListTh}', $this->getVueListTh(), $compiledModel);
+            $compiledModel = str_replace('{vueListTd}', $this->getVueListTd(), $compiledModel);
             $compiledModel = str_replace('{vueFormFields}', $this->getVueFormFields(), $compiledModel);
             $compiledModel = str_replace('{vueFormFieldsJs}', $this->getVueFormFieldsJs(), $compiledModel);
             $compiledModel = str_replace('{vueTableColumns}', $this->getVueTableColumns(), $compiledModel);
@@ -324,6 +327,44 @@ class Scaffolding extends Command
         return null;
     }
 
+    private function getVueListTh()
+    {
+        $results = '';
+        foreach ($this->columnsInformation as $column) {
+            if (in_array($column->Field, $this->unnecessaryColumns)) {
+                continue;
+            }
+            $columnField = $column->Field;
+
+            if (ends_with($column->Field, '_id')) {
+                $columnField = substr($column->Field, 0, -3);
+            }
+
+            $field = ucwords(str_replace('_', '', $columnField));
+            $results .= PHP_EOL . "\t\t\t\t\t\t\t<th>{$field}</th>";
+        }
+
+        return $results;
+    }
+
+    private function getVueListTd()
+    {
+        $results = '';
+        foreach ($this->columnsInformation as $column) {
+            if (in_array($column->Field, $this->unnecessaryColumns)) {
+                continue;
+            }
+            $columnField = $column->Field;
+            if (ends_with($column->Field, '_id')) {
+                $columnField = substr($column->Field, 0, -3) . ".name";
+            }
+
+            $results .= PHP_EOL . "\t\t\t\t\t\t\t<td>{{ {$this->lowerName}.{$columnField} }}</td>";
+        }
+
+        return $results;
+    }
+
     private function getVueFormFields()
     {
         $fields = '';
@@ -332,6 +373,7 @@ class Scaffolding extends Command
                 continue;
             }
             $titledField = title_case($column->Field);
+            // TODO: relationships
             $field = <<<EOF
                                 <form-group :form="form" field="{$column->Field}">
                                     <input-label for="{$column->Field}">{$titledField}: </input-label>
@@ -482,7 +524,7 @@ EOF;
     {
         $results = '';
         foreach ($this->columnsInformation as $column) {
-            if (in_array($column->Field, $this->unnecessaryColumns) or ! ends_with($column->Field, '_id')) {
+            if (in_array($column->Field, $this->unnecessaryColumns) or !ends_with($column->Field, '_id')) {
                 continue;
             }
             $fieldName = substr($column->Field, 0, -3);

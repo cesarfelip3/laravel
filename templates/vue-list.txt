@@ -12,14 +12,12 @@
                     <table class="table table-striped">
                         <thead>
                         <tr>
-                            <th></th>
-                            <th>ID</th>
+                            <th></th>{vueListTh}
                         </tr>
                         </thead>
                         <tbody>
                          <tr v-for="( {lowerName}, index ) in {camelCasePluralName}">
-                            <td>{{ index + 1 }}</td>
-                            <td>{{ {lowerName}.id }}</td>
+                            <td>{{ index + 1 }}</td>{vueListTd}
                             <td>
                                 <btn-success
                                     size="xs"
