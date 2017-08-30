@@ -5,25 +5,24 @@ namespace App\Services;
 use App\Events\UserCreated;
 use App\Events\UserDeleted;
 use App\Events\UserUpdated;
-use App\Http\Requests\UserCreateRequest;
-use App\Http\Requests\UserUpdateRequest;
+use App\Forms\UserForm;
 use App\Models\User;
 
 class UserService
 {
-    public function create(UserCreateRequest $request): User
+    public function create(UserForm $form): User
     {
-        return \DB::transaction(function () use ($request) {
+        return \DB::transaction(function () use ($form) {
             $data = [
-                'name' => $request->name(),
-                'email' => $request->email(),
+                'name' => $form->name(),
+                'email' => $form->email(),
                 'invitation_token' => hash_hmac('sha256', str_random(40), config('APP_KEY')),
                 'status' => false
             ];
             $user = new User($data);
             $user->save();
 
-            $user->attachRole($request->role());
+            $user->attachRole($form->role());
 
             event(new UserCreated($user));
 
@@ -31,16 +30,16 @@ class UserService
         });
     }
 
-    public function update(UserUpdateRequest $request, User $user): User
+    public function update(UserForm $form, User $user): User
     {
-        return \DB::transaction(function () use ($request, $user) {
-            $user->name = $request->name();
-            $user->email = $request->email();
+        return \DB::transaction(function () use ($form, $user) {
+            $user->name = $form->name();
+            $user->email = $form->email();
             $emailWasChanged = $user->isDirty('email');
 
-            if ($user->role->id !== $request->role()->id) {
+            if ($user->role->id !== $form->role()->id) {
                 $user->detachRole($user->role);
-                $user->attachRole($request->role());
+                $user->attachRole($form->role());
             }
 
             $user->save();

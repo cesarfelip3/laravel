@@ -125,7 +125,7 @@ class Scaffolding extends Command
 
     private function traitRequest()
     {
-        $this->generateFile('trait-request', 'app/Http/Requests/Traits', $this->pascalName, 'Request');
+        $this->generateFile('trait-request', 'app/Http/Requests/Forms', $this->pascalName, 'Request');
         $this->info('Trait Request generated!');
     }
 

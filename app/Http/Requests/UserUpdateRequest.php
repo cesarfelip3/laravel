@@ -2,12 +2,14 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Traits\UserRequest;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Forms\UserForm;
 
-class UserUpdateRequest extends FormRequest
+class UserUpdateRequest extends BaseRequest
 {
-    use UserRequest;
+    public function form(): UserForm
+    {
+        return new UserForm($this);
+    }
 
     public function authorize()
     {
@@ -23,4 +25,6 @@ class UserUpdateRequest extends FormRequest
 			'email' => "required|email|unique:users,id,{$id}"
         ];
     }
+
+
 }

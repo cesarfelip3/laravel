@@ -2,12 +2,14 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Traits\UserRequest;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Forms\UserForm;
 
-class UserCreateRequest extends FormRequest
+class UserCreateRequest extends BaseRequest
 {
-    use UserRequest;
+    public function form(): UserForm
+    {
+        return new UserForm($this);
+    }
 
     public function authorize()
     {
@@ -22,4 +24,6 @@ class UserCreateRequest extends FormRequest
             'role' => 'required'
         ];
     }
+
+
 }

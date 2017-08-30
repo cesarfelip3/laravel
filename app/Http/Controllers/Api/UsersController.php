@@ -25,7 +25,7 @@ class UsersController extends Controller
 
     public function store(UserCreateRequest $request)
     {
-        $data = $this->service->create($request);
+        $data = $this->service->create($request->form());
 
         $response = [
             'message' => 'User created.',
@@ -37,7 +37,7 @@ class UsersController extends Controller
 
     public function update(UserUpdateRequest $request, User $user)
     {
-        $obj = $this->service->update($request, $user);
+        $obj = $this->service->update($request->form(), $user);
 
         $response = [
             'message' => 'User updated.',
