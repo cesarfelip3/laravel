@@ -49,6 +49,7 @@ cmd;
 GREAT! ALMOST THERE.
 run:
     php artisan migrate --seed
+    php artisan passport:install
 ********************
 msg;
             $this->info($msg);

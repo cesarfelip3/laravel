@@ -78,7 +78,6 @@
       "php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
       "php artisan key:generate",
       "php artisan storage:link",
-      "php artisan passport:install",
       "php artisan clear-compiled",
       "php artisan ide-helper:generate",
       "php artisan optimize",
