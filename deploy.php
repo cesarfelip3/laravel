@@ -4,35 +4,40 @@ namespace Deployer;
 
 require 'recipe/laravel.php';
 
+$projectName = basename(__DIR__);
+
 // Configuration
-env('');
-set('repository', 'git@github.com:cesarfelip3/nexus.git');
-set('branch', 'master');
-
+set('repository', function () {
+    return (string)run('git config --get remote.origin.url');
+});
 set('git_tty', false);
-add('shared_files', []);
-add('shared_dirs', []);
-add('writable_dirs', []);
-
 set('bin/yarn', function () {
     return (string)run('which yarn');
 });
-
 set('bin/npm', function () {
     return (string)run('which npm');
 });
 
+add('shared_files', []);
+add('shared_dirs', []);
+add('writable_dirs', []);
+
 // Hosts
-host('clevermage.com')
+host('stage')
+    ->hostname('clevermage.com')
+    ->set('branch', 'master')
     ->user('forge')
-    ->set('deploy_path', '/home/forge/sjbookmanager.clevermage.com');
+    ->set('branch', 'master')
+    ->set('deploy_path', "/home/forge/{$projectName}.clevermage.com");
+
+host('production')
+    ->hostname('****')
+    ->set('branch', 'production')
+    ->user('***')
+    ->set('branch', 'production')
+    ->set('deploy_path', "/var/www/{$projectName}.com");
 
 // Tasks
-desc('Restart PHP-FPM service');
-task('php-fpm:restart', function () {
-    run('sudo service php7.1-fpm restart');
-});
-
 desc('Generate laroute');
 task('artisan:laroute', function () {
     run('cd {{release_path}};{{bin/php}} artisan laroute:generate');
@@ -40,36 +45,55 @@ task('artisan:laroute', function () {
 
 desc('Yarn install');
 task('yarn:install', function () {
-    if (has('previous_release')) {
-        if (test('[ -d {{previous_release}}/node_modules ]')) {
-            run('cp -R {{previous_release}}/node_modules {{release_path}}');
-        }
-    }
-    run("cd {{release_path}} && {{bin/yarn}}");
-});
-
-desc('Laravel mixim for production');
-task('npm:run:forge', function () {
-    run("cd {{release_path}} && {{bin/npm}} run forge", [
-        'timeout' => 1800,
+    run("cd {{release_path}} && {{bin/yarn}}", [
+        'timeout' => 3800,
     ]);
 });
 
-desc('Artisan config cache');
-task('artisan:config:cache', function () {
-    run('{{bin/php}} {{release_path}}/artisan config:cache');
+desc('NPM install');
+task('npm:install', function () {
+    run("cd {{release_path}} && {{bin/npm}} install", [
+        'timeout' => 3800,
+    ]);
 });
 
-desc('Artisan env');
-task('artisan:env', function () {
-    run('{{bin/php}} {{release_path}}/artisan env');
+desc('Laravel mixin for production');
+task('npm:run', function () {
+    run("cd {{release_path}} && {{bin/npm}} run production", [
+        'timeout' => 3800,
+    ]);
 });
 
-before('deploy:writable', 'yarn:install');
-before('yarn:install', 'artisan:laroute');
-before('deploy:symlink', 'artisan:migrate');
-before('artisan:migrate', 'artisan:config:cache');
-after('artisan:config:cache', 'artisan:env');
-after('yarn:install', 'npm:run:forge');
-after('deploy:symlink', 'php-fpm:restart');
+desc('Restart PHP-FPM service');
+task('php-fpm:restart', function () {
+    run('sudo service php7.1-fpm restart');
+});
+
+task('deploy', [
+    'deploy:prepare',
+    'deploy:lock',
+    'deploy:release',
+    'deploy:update_code',
+    'deploy:shared',
+    'deploy:vendors',
+    'deploy:writable',
+
+    'artisan:storage:link',
+    'artisan:view:clear',
+    'artisan:cache:clear',
+    'artisan:config:cache',
+    'artisan:optimize',
+    'artisan:laroute',
+
+    'npm:install',
+    'npm:run',
+
+    'artisan:migrate',
+    'deploy:symlink',
+    'php-fpm:restart',
+    'deploy:unlock',
+    'cleanup',
+]);
+
+after('deploy', 'success');
 after('deploy:failed', 'deploy:unlock');
