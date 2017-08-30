@@ -5,6 +5,7 @@ namespace Deployer;
 require 'recipe/laravel.php';
 
 // Configuration
+env('');
 set('repository', 'git@github.com:cesarfelip3/nexus.git');
 set('branch', 'master');
 
