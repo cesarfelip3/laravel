@@ -46,9 +46,10 @@ cmd;
         }
 
         if ($this->confirm('Would you like to run migration (and seed)?', true)) {
+            \Artisan::call('cache:clear');
+            \Artisan::call('config:cache');
             \Artisan::call('migrate', ['--seed' => '']);
         }
-
     }
 
 
