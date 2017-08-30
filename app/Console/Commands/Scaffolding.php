@@ -450,7 +450,7 @@ EOF;
 
     private function getVueFormFieldsJs()
     {
-        $results = PHP_EOL . "\t\t\tid: $this->snakeName ? $this->snakeName.id : null,";
+        $results = PHP_EOL . "\t\t\t\t\tid: $this->snakeName ? $this->snakeName.id : null,";
         foreach ($this->columnsInformation as $column) {
             if (in_array($column->Field, $this->unnecessaryColumns)) {
                 continue;
