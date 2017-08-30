@@ -388,12 +388,15 @@ class Scaffolding extends Command
                                 </form-group>         
 EOF;
             } else {
+
                 $field = <<<EOF
                                 <form-group :form="form" field="{$column->Field}">
                                     <input-label for="{$column->Field}">{$titledField}: </input-label>
                                     <input-text v-model="form.{$column->Field}" id="{$column->Field}" name="{$column->Field}"/>
-                                </form-group>                             
-EOF;    
+                                </form-group>     
+EOF;
+
+
             }
             
             $fields .= $field . PHP_EOL;
