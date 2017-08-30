@@ -9,9 +9,6 @@
             </div>
             <br/>
             <p>
-                Perfectly designed and precisely prepared to manage your project.
-            </p>
-            <p>
                 Login in. To see it in action.
             </p>
             <form class="m-t" role="form" method="POST" action="{{ route('login') }}">
