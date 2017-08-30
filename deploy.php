@@ -2,9 +2,10 @@
 
 namespace Deployer;
 
+require __DIR__ . '/vendor/autoload.php';
 require 'recipe/laravel.php';
 
-$projectName = basename(__DIR__);
+$env = readEnv();
 
 // Configuration
 set('repository', function () {
@@ -24,18 +25,18 @@ add('writable_dirs', []);
 
 // Hosts
 host('stage')
-    ->hostname('clevermage.com')
-    ->set('branch', 'master')
-    ->user('forge')
-    ->set('branch', 'master')
-    ->set('deploy_path', "/home/forge/{$projectName}.clevermage.com");
+    ->hostname($env['DEPLOY_STAGE_HOSTNAME'])
+    ->set('branch', $env['DEPLOY_STAGE_BRANCH'])
+    ->user($env['DEPLOY_STAGE_USER'])
+    ->set('deploy_path', $env['DEPLOY_STAGE_FOLDER']);
 
+/*
 host('production')
     ->hostname('****')
     ->set('branch', 'production')
     ->user('***')
-    ->set('branch', 'production')
     ->set('deploy_path', "/var/www/{$projectName}.com");
+*/
 
 // Tasks
 desc('Generate laroute');

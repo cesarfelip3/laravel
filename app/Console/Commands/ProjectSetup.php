@@ -18,41 +18,41 @@ class ProjectSetup extends Command
 
     public function handle()
     {
-        $this->updateEnv(['APP_NAME' => $this->ask('APP_NAME?')]);
-        $this->updateEnv(['DB_DATABASE' => $this->ask('DB_DATABASE?')]);
-        $this->updateEnv(['DB_USERNAME' => $this->ask('DB_USERNAME?')]);
-        $this->updateEnv(['DB_PASSWORD' => $this->secret('DB_PASSWORD?')]);
-    }
+        $dir = basename(base_path());
+        updateEnv(['APP_NAME' => $this->ask('APP_NAME?', title_case($dir))]);
 
-    private function updateEnv($data = array())
-    {
-        if (!count($data)) {
-            return;
-        }
+        updateEnv(['DB_DATABASE' => $this->ask('DB_DATABASE?', $dir)]);
+        updateEnv(['DB_USERNAME' => $this->ask('DB_USERNAME?', "root")]);
+        updateEnv(['DB_PASSWORD' => trim($this->ask('DB_PASSWORD?', " "))]);
 
-        $pattern = '/([^\=]*)\=[^\n]*/';
+        updateEnv(['DEPLOY_STAGE_HOST' => $this->ask("DEPLOY_STAGE_HOST?", 'clevermage.com')]);
+        updateEnv(['DEPLOY_STAGE_BRANCH' => $this->ask("DEPLOY_STAGE_BRANCH?", 'master')]);
+        updateEnv(['DEPLOY_STAGE_USER' => $this->ask("DEPLOY_STAGE_USER?", 'forge')]);
 
-        $envFile = base_path() . '/.env';
-        $lines = file($envFile);
-        $newLines = [];
-        foreach ($lines as $line) {
-            preg_match($pattern, $line, $matches);
+        $default = kebab_case($dir);
+        updateEnv(['DEPLOY_STAGE_FOLDER' => $this->ask("DEPLOY_STAGE_FOLDER?", "/home/forge/{$default}.clevermage.com")]);
 
-            if (!count($matches)) {
-                $newLines[] = $line;
-                continue;
+        $env = readEnv();
+
+        if ($this->confirm('Would you like to create the database?', true)) {
+            $password = "";
+            if ($env['DB_PASSWORD']) {
+                $password = "-p{$env['DB_PASSWORD']}";
             }
+            $cmd = <<<cmd
+            mysql -u {$env['DB_USERNAME']} $password -e "drop database if exists {$env['DB_DATABASE']}; create database {$env['DB_DATABASE']};"
+cmd;
+            shell_exec($cmd);
 
-            if (!key_exists(trim($matches[1]), $data)) {
-                $newLines[] = $line;
-                continue;
-            }
-
-            $line = trim($matches[1]) . "={$data[trim($matches[1])]}\n";
-            $newLines[] = $line;
+            $msg = <<<msg
+********************
+GREAT! ALMOST THERE.
+run:
+    php artisan migrate --seed
+    php artisan passport:install
+********************
+msg;
+            $this->info($msg);
         }
-
-        $newContent = implode('', $newLines);
-        file_put_contents($envFile, $newContent);
     }
 }
