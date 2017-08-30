@@ -20,10 +20,10 @@
 </template>
 
 <script>
-    import ModalForm from '../shared/Mixins/ModalForm';
+    import ModalForm from '../shared/Mixins/ModalForm';{vueFormImports}
 
     export default {
-        mixins: [ModalForm],
+        mixins: [ModalForm],{vueFormComponents}
         data() {
             return {
                 api: '{kebabName}'

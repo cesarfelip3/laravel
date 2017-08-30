@@ -374,12 +374,28 @@ class Scaffolding extends Command
             }
             $titledField = title_case($column->Field);
             // TODO: relationships
-            $field = <<<EOF
+            $field = '';
+            if (ends_with($column->Field, '_id')) {
+                $columnField = substr($column->Field, 0, -3);
+                $kebabCase = kebab_case($columnField);
+                $camelCase = camel_case($columnField);
+                $pascalCase = ucwords(str_replace('_', ' ', $columnField));
+
+                $field = <<<EOF
+                                <form-group :form="form" field="{$camelCase}">
+                                    <input-label for="{$camelCase}">{$pascalCase}: </input-label>
+                                    <{$kebabCase}-select v-model="form.{$camelCase}" id="{$camelCase}" name="{$camelCase}"/>
+                                </form-group>                          
+EOF;            
+            } else {
+                $field = <<<EOF
                                 <form-group :form="form" field="{$column->Field}">
                                     <input-label for="{$column->Field}">{$titledField}: </input-label>
                                     <input-text v-model="form.{$column->Field}" id="{$column->Field}" name="{$column->Field}"/>
                                 </form-group>                             
-EOF;
+EOF;    
+            }
+            
             $fields .= $field . PHP_EOL;
         }
 
