@@ -237,7 +237,6 @@ class Scaffolding extends Command
         $compiledModel = str_replace('{snakePluralName}', $this->snakePluralName, $compiledModel);
         $compiledModel = str_replace('{pascalName}', $this->pascalName, $compiledModel);
         if (!is_null($this->columnsInformation)) {
-
             $compiledModel = str_replace('{traitRequestFields}', $this->getTraitRequestFields(), $compiledModel);
             $compiledModel = str_replace('{fillable}', $this->getFillables(), $compiledModel);
             $compiledModel = str_replace('{casts}', $this->getCasts(), $compiledModel);
@@ -251,6 +250,7 @@ class Scaffolding extends Command
             $compiledModel = str_replace('{vueListTd}', $this->getVueListTd(), $compiledModel);
             $compiledModel = str_replace('{vueFormFields}', $this->getVueFormFields(), $compiledModel);
             $compiledModel = str_replace('{vueFormImports}', $this->getVueFormImports(), $compiledModel);
+            $compiledModel = str_replace('{vueFormComponents}', $this->getVueFormComponents(), $compiledModel);
             $compiledModel = str_replace('{vueFormFieldsJs}', $this->getVueFormFieldsJs(), $compiledModel);
             $compiledModel = str_replace('{vueTableColumns}', $this->getVueTableColumns(), $compiledModel);
             $compiledModel = str_replace('{transformerFields}', $this->getTransformerFields(), $compiledModel);
@@ -363,8 +363,34 @@ class Scaffolding extends Command
         }
 
         return $results;
-
     }
+
+    public function getVueFormComponents()
+    {
+        $results = '';
+        $components = '';
+        foreach ($this->columnsInformation as $column) {
+            if (in_array($column->Field, $this->unnecessaryColumns) or ! ends_with($column->Field, '_id')) {
+                continue;
+            }
+            $columnField = substr($column->Field, 0, -3);
+            $pascalCase = ucwords(str_replace('_','',$columnField));
+
+            $components .= PHP_EOL . "\t\t\t{$pascalCase}Select,";
+        }
+
+        if( strlen($components) ) {
+            $results = <<<EOF
+\tcomponents: {
+$components
+\t}
+EOF;
+
+        }
+
+        return $results;
+    }
+
     private function getVueListTd()
     {
         $results = '';
