@@ -15,8 +15,7 @@ class {pascalName} extends Model
     protected $dates = [{dates}
     ];
 
-    #region Relationships
-    {relationships}
+    #region Relationships{relationships}
     #region
 
     #region Custom Attributes

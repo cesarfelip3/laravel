@@ -453,14 +453,13 @@ EOF;
             $camelCase = camel_case($fieldName);
             $pascalName = ucwords($fieldName);
             $string = <<<EOF
-public function {$camelCase}()
+\tpublic function {$camelCase}()
 \t{
 \t\treturn \$this->belongsTo({$pascalName}::class);
 \t}
-
 EOF;
 
-            $results .= $string;
+            $results .= PHP_EOL . $string;
         }
 
         return $results;
