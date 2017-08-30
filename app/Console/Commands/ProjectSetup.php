@@ -19,14 +19,9 @@ class ProjectSetup extends Command
     public function handle()
     {
         $this->updateEnv(['APP_NAME' => $this->ask('APP_NAME?')]);
-
         $this->updateEnv(['DB_DATABASE' => $this->ask('DB_DATABASE?')]);
         $this->updateEnv(['DB_USERNAME' => $this->ask('DB_USERNAME?')]);
         $this->updateEnv(['DB_PASSWORD' => $this->secret('DB_PASSWORD?')]);
-
-        $this->updateEnv(['MAIL_HOST' => $this->choice('MAIL_HOST?', [env('MAIL_HOST')], env('MAIL_HOST'))]);
-
-        $this->updateEnv(['BUGSNAG_API_KEY' => $this->ask('BUGSNAG_API_KEY?')]);
     }
 
     private function updateEnv($data = array())

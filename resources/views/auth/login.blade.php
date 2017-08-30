@@ -5,7 +5,7 @@
         <div>
             <h3>Welcome to</h3>
             <div>
-                <h1 class="logo-name">Nexus</h1>
+                <h1 class="logo-name">{{env('APP_NAME')}}</h1>
             </div>
             <br/>
             <p>

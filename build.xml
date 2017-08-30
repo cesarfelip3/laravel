@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="SLCDevShopNexus" default="default">
+<project default="default">
 
     <property name="phpunit" value="${basedir}/vendor/bin/phpunit"/>
     <property name="phpdox" value="${basedir}/vendor/bin/phpdox"/>
