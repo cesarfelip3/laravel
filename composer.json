@@ -71,6 +71,9 @@
     }
   },
   "scripts": {
+    "test": [
+      "App\\Helpers\\ComposerProjectSetup::postProjectCrete"
+    ],
     "setup": [
       "php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
       "php artisan key:generate",
@@ -83,7 +86,8 @@
       "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
     ],
     "post-create-project-cmd": [
-      "@setup"
+      "@setup",
+      "App\\Helpers\\ComposerProjectSetup::postProjectCrete"
     ],
     "post-autoload-dump": [
       "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
