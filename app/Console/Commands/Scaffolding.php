@@ -382,18 +382,18 @@ class Scaffolding extends Command
                 $pascalCase = ucwords(str_replace('_', ' ', $columnField));
 
                 $field = <<<EOF
-                                <form-group :form="form" field="{$camelCase}">
-                                    <input-label for="{$camelCase}">{$pascalCase}: </input-label>
-                                    <{$kebabCase}-select v-model="form.{$camelCase}" id="{$camelCase}" name="{$camelCase}"/>
-                                </form-group>         
+                            <form-group :form="form" field="{$camelCase}">
+                                <input-label for="{$camelCase}">{$pascalCase}: </input-label>
+                                <{$kebabCase}-select v-model="form.{$camelCase}" id="{$camelCase}" name="{$camelCase}"/>
+                            </form-group>         
 EOF;
             } else {
 
                 $field = <<<EOF
-                                <form-group :form="form" field="{$column->Field}">
-                                    <input-label for="{$column->Field}">{$titledField}: </input-label>
-                                    <input-text v-model="form.{$column->Field}" id="{$column->Field}" name="{$column->Field}"/>
-                                </form-group>     
+                            <form-group :form="form" field="{$column->Field}">
+                                <input-label for="{$column->Field}">{$titledField}: </input-label>
+                                <input-text v-model="form.{$column->Field}" id="{$column->Field}" name="{$column->Field}"/>
+                            </form-group>     
 EOF;
 
 
