@@ -77,7 +77,7 @@ class Scaffolding extends Command
                 $this->controller();
                 $this->apiRoute();
                 $this->route();
-                $this->traitRequest();
+                $this->form();
                 $this->createRequest();
                 $this->updateRequest();
                 $this->makeVueDirectory();
@@ -123,10 +123,10 @@ class Scaffolding extends Command
         $this->info('Route generated!');
     }
 
-    private function traitRequest()
+    private function form()
     {
-        $this->generateFile('trait-request', 'app/Http/Requests/Forms', $this->pascalName, 'Request');
-        $this->info('Trait Request generated!');
+        $this->generateFile('form', 'app/Forms', $this->pascalName, 'Form');
+        $this->info('Form generated!');
     }
 
     private function createRequest()
@@ -544,7 +544,7 @@ EOF;
                     $string = <<<EOF
 \tpublic function {$camelCase}()
 \t{
-\t\t\${$camelCase} = (object) \$this->get('{$camelCase}');
+\t\t\${$camelCase} = (object) \$this->request->get('{$camelCase}');
 \t\treturn \App\Models\\{$pascalName}::findOrFail(\${$camelCase}->id);
 \t}
 
@@ -554,7 +554,7 @@ EOF;
                     $string = <<<EOF
 \tpublic function {$camelCase}()
 \t{
-\t\treturn \$this->get('{$snakeCase}');
+\t\treturn \$this->request->get('{$snakeCase}');
 \t}
 
 

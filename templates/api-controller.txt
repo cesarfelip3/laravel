@@ -25,7 +25,7 @@ class {pluralPascalName}Controller extends Controller
 
     public function store({pascalName}CreateRequest $request)
     {
-        $data = $this->service->create($request);
+        $data = $this->service->create($request->form());
 
         $response = [
             'message' => '{pascalName} created.',
@@ -37,7 +37,7 @@ class {pluralPascalName}Controller extends Controller
 
     public function update({pascalName}UpdateRequest $request, {pascalName} ${camelCaseName})
     {
-        $obj = $this->service->update($request, ${camelCaseName});
+        $obj = $this->service->update($request->form(), ${camelCaseName});
 
         $response = [
             'message' => '{pascalName} updated.',

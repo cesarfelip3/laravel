@@ -3,11 +3,13 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Traits\{pascalName}Request;
-use Illuminate\Foundation\Http\FormRequest;
 
-class {pascalName}UpdateRequest extends FormRequest
+class {pascalName}UpdateRequest extends BaseRequest
 {
-    use {pascalName}Request;
+    public function form(): {pascalName}Form
+    {
+        return new {pascalName}Form($this);
+    }
 
     public function authorize()
     {
