@@ -286,7 +286,7 @@ class Scaffolding extends Command
     {
         $results = '';
         foreach ($this->columnsInformation as $column) {
-            if (in_array($column->Field, $this->unnecessaryColumns)) {
+            if (in_array($column->Field, $this->unnecessaryColumns) or ends_with($column->Field, '_id') ) {
                 continue;
             }
             $rule = $this->listTheRulesFrom($column);
@@ -302,6 +302,8 @@ class Scaffolding extends Command
 
         if ($column->Null == 'NO') {
             array_push($rules, 'required');
+        } else {
+            array_push($rules, 'nullable');
         }
 
         if (strpos($column->Type, 'int(') !== false) {

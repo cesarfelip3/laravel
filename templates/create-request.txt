@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Traits\{pascalName}Request;
+use App\Forms\{pascalName}Form;
 
 class {pascalName}CreateRequest extends BaseRequest
 {
