@@ -16,8 +16,9 @@ class UserForm extends BaseForm
 
     public function role()
     {
-        $role = (object)$this->request->get('role');
+        if( ! $this->request->has('role') ) return null;
 
+        $role = (object)$this->request->get('role');
         return \Defender::findRoleById($role->id);
     }
 }

@@ -33,11 +33,12 @@ class UserService
     public function update(UserForm $form, User $user): User
     {
         return \DB::transaction(function () use ($form, $user) {
-            $user->name = $form->name();
-            $user->email = $form->email();
+
+            if( $form->name() ) $user->name = $form->name();
+            if( $form->email() ) $user->email = $form->email();
             $emailWasChanged = $user->isDirty('email');
 
-            if ($user->role->id !== $form->role()->id) {
+            if ($form->role() && $user->role->id !== $form->role()->id) {
                 $user->detachRole($user->role);
                 $user->attachRole($form->role());
             }
