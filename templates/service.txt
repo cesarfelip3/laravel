@@ -5,15 +5,14 @@ namespace App\Services;
 use App\Events\{pascalName}Created;
 use App\Events\{pascalName}Deleted;
 use App\Events\{pascalName}Updated;
-use App\Http\Requests\{pascalName}CreateRequest;
-use App\Http\Requests\{pascalName}UpdateRequest;
+use App\Forms\{pascalName}Form;
 use App\Models\{pascalName};
 
 class {pascalName}Service
 {
-    public function create({pascalName}CreateRequest $request): {pascalName}
+    public function create({pascalName}Form $form): {pascalName}
     {
-        return \DB::transaction(function () use ($request) {
+        return \DB::transaction(function () use ($form) {
             $data = [{createFields}
             ];
 
@@ -27,9 +26,9 @@ class {pascalName}Service
         });
     }
 
-    public function update({pascalName}UpdateRequest $request, {pascalName} ${camelCaseName}): {pascalName}
+    public function update({pascalName}Form $form, {pascalName} ${camelCaseName}): {pascalName}
     {
-        return \DB::transaction(function () use ($request, ${camelCaseName}) {
+        return \DB::transaction(function () use ($form, ${camelCaseName}) {
             {updateFields}
 
             ${camelCaseName}->save();

@@ -577,7 +577,7 @@ EOF;
                 }
                 $field = camel_case($column->Field);
 
-                $results .= PHP_EOL . "\t\t\t\t'{$column->Field}' => \$request->{$field}(),";
+                $results .= PHP_EOL . "\t\t\t\t'{$column->Field}' => \$form->{$field}(),";
             }
 
             return $results;
@@ -594,7 +594,7 @@ EOF;
                 $fieldName = substr($column->Field, 0, -3);
                 $camelCase = camel_case($fieldName);
 
-                $results .= "\t\t\t\${$this->camelCaseName}->{$camelCase}()->associate(\$request->{$camelCase}());" . PHP_EOL;
+                $results .= "\t\t\t\${$this->camelCaseName}->{$camelCase}()->associate(\$form->{$camelCase}());" . PHP_EOL;
             }
 
             return $results;
@@ -610,7 +610,7 @@ EOF;
                 }
                 $field = camel_case($column->Field);
                 $obj = $this->camelCaseName;
-                $results .= PHP_EOL . "\t\t\t\${$obj}->{$column->Field} = \$request->{$field}();";
+                $results .= PHP_EOL . "\t\t\t\${$obj}->{$column->Field} = \$form->{$field}();";
             }
 
             return $results;
