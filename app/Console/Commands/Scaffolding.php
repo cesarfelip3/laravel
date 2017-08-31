@@ -457,6 +457,10 @@ EOF;
             if (in_array($column->Field, $this->unnecessaryColumns)) {
                 continue;
             }
+            if (ends_with($column->Field, '_id')) {
+                $columnField = substr($column->Field, 0, -3);
+                $results .= PHP_EOL . "\t\t\t\t\t$columnField: $this->snakeName ? $this->snakeName.$columnField : null,";
+            }
             $results .= PHP_EOL . "\t\t\t\t\t$column->Field: $this->snakeName ? $this->snakeName.$column->Field : null,";
         }
 
