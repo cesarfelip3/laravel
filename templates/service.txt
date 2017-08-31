@@ -17,9 +17,9 @@ class {pascalName}Service
             ];
 
             ${camelCaseName} = new {pascalName}($data);
+{createRelationshipsFields}
             ${camelCaseName}->save();
 
-{createRelationshipsFields}
             event(new {pascalName}Created(${camelCaseName}));
 
             return ${camelCaseName};
