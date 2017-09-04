@@ -30,10 +30,9 @@ class {pascalName}Service
     {
         return \DB::transaction(function () use ($form, ${camelCaseName}) {
             {updateFields}
-
+{createRelationshipsFields}
             ${camelCaseName}->save();
 
-{createRelationshipsFields}
             event(new {pascalName}Updated(${camelCaseName}));
 
             return ${camelCaseName};

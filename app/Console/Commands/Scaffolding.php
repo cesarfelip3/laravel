@@ -286,11 +286,17 @@ class Scaffolding extends Command
     {
         $results = '';
         foreach ($this->columnsInformation as $column) {
-            if (in_array($column->Field, $this->unnecessaryColumns) or ends_with($column->Field, '_id') ) {
+            if (in_array($column->Field, $this->unnecessaryColumns)) {
                 continue;
             }
             $rule = $this->listTheRulesFrom($column);
-            $results .= PHP_EOL . "\t\t\t'{$column->Field}' => '$rule',";
+            $columnField = $column->Field;
+
+            if (ends_with($column->Field, '_id')) {
+                $columnField = substr($column->Field, 0, -3);
+            }
+
+            $results .= PHP_EOL . "\t\t\t'{$columnField}' => '$rule',";
         }
 
         return $results;
@@ -328,6 +334,15 @@ class Scaffolding extends Command
         }
 
         return null;
+    }
+
+    private function getFormInputType($column)
+    {
+        if (strpos($column->Type, 'date') !== false) {
+            return 'date';
+        }
+
+        return 'text';
     }
 
     private function getVueListTh()
@@ -434,16 +449,17 @@ EOF;
 EOF;
             } else {
 
+                $formType = $this->getFormInputType($column);
+
                 $field = <<<EOF
                         <form-group :form="form" field="{$column->Field}">
                             <input-label for="{$column->Field}">{$titledField}: </input-label>
-                            <input-text v-model="form.{$column->Field}" id="{$column->Field}" name="{$column->Field}"/>
+                            <input-{$formType} v-model="form.{$column->Field}" id="{$column->Field}" name="{$column->Field}"/>
                         </form-group>     
 EOF;
 
-
             }
-            
+
             $fields .= $field . PHP_EOL;
         }
 
@@ -527,27 +543,26 @@ EOF;
 \t}
 EOF;
 
-                $results .= PHP_EOL . $string;
-            }
-
-            return $results;
+            $results .= PHP_EOL . $string;
         }
 
-        private
-        function getTraitRequestFields()
-        {
-            $results = '';
-            foreach ($this->columnsInformation as $column) {
-                if (in_array($column->Field, $this->unnecessaryColumns)) {
-                    continue;
-                }
-                $camelCase = camel_case($column->Field);
-                $snakeCase = $column->Field;
-                if (ends_with($column->Field, '_id')) {
-                    $fieldName = substr($column->Field, 0, -3);
-                    $camelCase = camel_case($fieldName);
-                    $pascalName = ucwords($fieldName);
-                    $string = <<<EOF
+        return $results;
+    }
+
+    private function getTraitRequestFields()
+    {
+        $results = '';
+        foreach ($this->columnsInformation as $column) {
+            if (in_array($column->Field, $this->unnecessaryColumns)) {
+                continue;
+            }
+            $camelCase = camel_case($column->Field);
+            $snakeCase = $column->Field;
+            if (ends_with($column->Field, '_id')) {
+                $fieldName = substr($column->Field, 0, -3);
+                $camelCase = camel_case($fieldName);
+                $pascalName = ucwords($fieldName);
+                $string = <<<EOF
 \tpublic function {$camelCase}()
 \t{
 \t\t\${$camelCase} = (object) \$this->request->get('{$camelCase}');
@@ -556,143 +571,148 @@ EOF;
 
 
 EOF;
-                } else {
-                    $string = <<<EOF
+            } else {
+
+                $return = "return \$this->request->get('{$snakeCase}');";
+
+                if (strpos($column->Type, 'date') !== false) {
+                    $return = "return \$this->transformDate(\$this->request->get('{$snakeCase}'));";
+                }
+
+                $string = <<<EOF
 \tpublic function {$camelCase}()
 \t{
-\t\treturn \$this->request->get('{$snakeCase}');
+\t\t{$return}
 \t}
 
 
 EOF;
-                }
-
-                $results .= $string;
             }
 
-            return $results;
+            $results .= $string;
         }
 
-        private
-        function getCreateFields()
-        {
-            $results = '';
-            foreach ($this->columnsInformation as $column) {
-                if (in_array($column->Field, $this->unnecessaryColumns) or ends_with($column->Field, '_id')) {
-                    continue;
-                }
-                $field = camel_case($column->Field);
-
-                $results .= PHP_EOL . "\t\t\t\t'{$column->Field}' => \$form->{$field}(),";
-            }
-
-            return $results;
-        }
-
-        private
-        function getCreateRelationshipsFields()
-        {
-            $results = '';
-            foreach ($this->columnsInformation as $column) {
-                if (in_array($column->Field, $this->unnecessaryColumns) or !ends_with($column->Field, '_id')) {
-                    continue;
-                }
-                $fieldName = substr($column->Field, 0, -3);
-                $camelCase = camel_case($fieldName);
-
-                $results .= "\t\t\t\${$this->camelCaseName}->{$camelCase}()->associate(\$form->{$camelCase}());" . PHP_EOL;
-            }
-
-            return $results;
-        }
-
-        private
-        function getUpdateFields()
-        {
-            $results = '';
-            foreach ($this->columnsInformation as $column) {
-                if (in_array($column->Field, $this->unnecessaryColumns) or ends_with($column->Field, '_id')) {
-                    continue;
-                }
-                $field = camel_case($column->Field);
-                $obj = $this->camelCaseName;
-                $results .= PHP_EOL . "\t\t\t\${$obj}->{$column->Field} = \$form->{$field}();";
-            }
-
-            return $results;
-        }
-
-        private
-        function getTransformerFields()
-        {
-            $results = '';
-            foreach ($this->columnsInformation as $column) {
-                if (in_array($column->Field, $this->unnecessaryColumns)) {
-                    continue;
-                }
-                $results .= PHP_EOL . "\t\t\t'$column->Field' => \$this->$column->Field,";
-                if (ends_with($column->Field, '_id')) {
-                    $fieldName = camel_case(substr($column->Field, 0, -3));
-                    $results .= PHP_EOL . "\t\t\t'{$fieldName}' => \$this->{$fieldName}->toArray(),";
-                }
-            }
-
-            return $results;
-        }
-
-        private
-        function larouteGenerate()
-        {
-            Artisan::call('laroute:generate');
-            $this->info('Laroute Generated!');
-        }
-
-        private
-        function updateRepositoryServiceProvider()
-        {
-            $repositoryServiceProvider = base_path() . '/app/Providers/RepositoryServiceProvider.php';
-            $contents = file($repositoryServiceProvider);
-            $template = "\t\t\$this->app->bind(\\App\\Repositories\\{$this->pascalName}Services::class, \\App\\Repositories\\{$this->pascalName}RepositoryEloquent::class);\n";
-            $newFile = '';
-            $firstBindFounded = false;
-            $templateAdded = false;
-
-            foreach ($contents as $line) {
-                if (!$firstBindFounded && strpos($line, 'app->bind(') !== false) {
-                    $firstBindFounded = true;
-                }
-
-                if (!$templateAdded) {
-                    if ($firstBindFounded && strpos($line, 'app->bind(') == false) {
-                        $newFile .= $template;
-                        $templateAdded = true;
-                    }
-                }
-
-                $newFile .= $line;
-            }
-
-
-            File::put($repositoryServiceProvider, $newFile);
-            $this->info('Services Service Provider Updated!');
-        }
-
-        private
-        function updateBootstrapJs()
-        {
-            $bootstrapJs = base_path() . '/resources/assets/js/components/bootstrap.js';
-            $template = "\nVue.component('{$this->kebabName}-list', require('./{$this->kebabName}/{$this->kebabName}-list.vue'));\n";
-            File::append($bootstrapJs, $template);
-            $this->info('BootstrapJS Updated!');
-        }
-
-        private
-        function npmRunDev()
-        {
-            $this->comment('Running npm run dev.. this could take a while!');
-            shell_exec('npm run dev');
-            $this->info('Js Compiled');
-        }
-
-
+        return $results;
     }
+
+    private function getCreateFields()
+    {
+        $results = '';
+        foreach ($this->columnsInformation as $column) {
+            if (in_array($column->Field, $this->unnecessaryColumns) or ends_with($column->Field, '_id')) {
+                continue;
+            }
+            $field = camel_case($column->Field);
+
+            $results .= PHP_EOL . "\t\t\t\t'{$column->Field}' => \$form->{$field}(),";
+        }
+
+        return $results;
+    }
+
+    private function getCreateRelationshipsFields()
+    {
+        $results = '';
+        foreach ($this->columnsInformation as $column) {
+            if (in_array($column->Field, $this->unnecessaryColumns) or !ends_with($column->Field, '_id')) {
+                continue;
+            }
+            $fieldName = substr($column->Field, 0, -3);
+            $camelCase = camel_case($fieldName);
+
+            $results .= "\t\t\t\${$this->camelCaseName}->{$camelCase}()->associate(\$form->{$camelCase}());" . PHP_EOL;
+        }
+
+        return $results;
+    }
+
+    private function getUpdateFields()
+    {
+        $results = '';
+        foreach ($this->columnsInformation as $column) {
+            if (in_array($column->Field, $this->unnecessaryColumns) or ends_with($column->Field, '_id')) {
+                continue;
+            }
+            $field = camel_case($column->Field);
+            $obj = $this->camelCaseName;
+            $results .= PHP_EOL . "\t\t\t\${$obj}->{$column->Field} = \$form->{$field}();";
+        }
+
+        return $results;
+    }
+
+    private function getTransformerFields()
+    {
+        $results = '';
+        foreach ($this->columnsInformation as $column) {
+            if (in_array($column->Field, $this->unnecessaryColumns)) {
+                continue;
+            }
+            if (strpos($column->Type, 'date') !== false) {
+                $results .= PHP_EOL . "\t\t\t'{$column->Field}' => \$this->{$column->Field}->format('m/d/Y'),";
+            } else {
+                $results .= PHP_EOL . "\t\t\t'{$column->Field}' => \$this->{$column->Field},";
+            }
+
+
+            if (ends_with($column->Field, '_id')) {
+                $fieldName = camel_case(substr($column->Field, 0, -3));
+                $results .= PHP_EOL . "\t\t\t'{$fieldName}' => \$this->{$fieldName}->toArray(),";
+            }
+        }
+
+        return $results;
+    }
+
+    private function larouteGenerate()
+    {
+        Artisan::call('laroute:generate');
+        $this->info('Laroute Generated!');
+    }
+
+    private function updateRepositoryServiceProvider()
+    {
+        $repositoryServiceProvider = base_path() . '/app/Providers/RepositoryServiceProvider.php';
+        $contents = file($repositoryServiceProvider);
+        $template = "\t\t\$this->app->bind(\\App\\Repositories\\{$this->pascalName}Services::class, \\App\\Repositories\\{$this->pascalName}RepositoryEloquent::class);\n";
+        $newFile = '';
+        $firstBindFounded = false;
+        $templateAdded = false;
+
+        foreach ($contents as $line) {
+            if (!$firstBindFounded && strpos($line, 'app->bind(') !== false) {
+                $firstBindFounded = true;
+            }
+
+            if (!$templateAdded) {
+                if ($firstBindFounded && strpos($line, 'app->bind(') == false) {
+                    $newFile .= $template;
+                    $templateAdded = true;
+                }
+            }
+
+            $newFile .= $line;
+        }
+
+
+        File::put($repositoryServiceProvider, $newFile);
+        $this->info('Services Service Provider Updated!');
+    }
+
+    private function updateBootstrapJs()
+    {
+        $bootstrapJs = base_path() . '/resources/assets/js/components/bootstrap.js';
+        $template = "\nVue.component('{$this->kebabName}-list', require('./{$this->kebabName}/{$this->kebabName}-list.vue'));\n";
+        File::append($bootstrapJs, $template);
+        $this->info('BootstrapJS Updated!');
+    }
+
+    private function npmRunDev()
+    {
+        $this->comment('Running npm run dev.. this could take a while!');
+        shell_exec('npm run dev');
+        $this->info('Js Compiled');
+    }
+
+
+}
