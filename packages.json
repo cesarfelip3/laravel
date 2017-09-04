@@ -19,6 +19,15 @@
         },
         "type": "project",
         "version": "1.0.0"
+      },
+      "v1.0.1": {
+        "name": "cesarfelip3/laravel",
+        "dist": {
+          "type": "zip",
+          "url": "https://github.com/cesarfelip3/laravel/archive/1.0.1.zip"
+        },
+        "type": "project",
+        "version": "1.0.1"
       }
     }
   }
