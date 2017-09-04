@@ -54,9 +54,9 @@ class UserService
     public function delete(User $user)
     {
         return \DB::transaction(function() use ($user) {
-           $user->delete();
+            $user->delete();
 
-           event(new UserDeleted($user));
+            event(new UserDeleted($user));
         });
     }
 }

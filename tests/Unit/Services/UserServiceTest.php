@@ -7,6 +7,7 @@ use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
 use App\Services\UserService;
+use Tests\Fakers\FormRequest;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -18,8 +19,7 @@ class UserServiceTest extends TestCase
     public function test_create()
     {
         $this->loginAsAdmin();
-        $this->createUserRole();
-        $role = \Defender::findRole(User::USER);
+        $role = $this->createUserRole();
 
         $service = new UserService();
         $attributes = [
@@ -27,8 +27,10 @@ class UserServiceTest extends TestCase
             'email' => 'jeremias@test.com',
             'role' => $role->toArray()
         ];
-        $request = new UserForm(new UserCreateRequest($attributes));
-        $service->create($request);
+
+        $form = new UserForm(new FormRequest($attributes));
+
+        $service->create($form);
 
         $this->assertDatabaseHas('users', ['name' => 'Jeremias']);
     }
@@ -36,8 +38,7 @@ class UserServiceTest extends TestCase
     public function test_update()
     {
         $this->loginAsAdmin();
-        $this->createUserRole();
-        $role = \Defender::findRole(User::USER);
+        $role = $this->createUserRole();
 
         $service = new UserService();
         $attributes = [
@@ -45,13 +46,41 @@ class UserServiceTest extends TestCase
             'email' => 'jeremias@test.com',
             'role' => $role->toArray()
         ];
-        $request = new UserForm(new UserCreateRequest($attributes));
-        $user = $service->create($request);
+
+        $form = new UserForm(new FormRequest($attributes));
+
+        $user = $service->create($form);
         $this->assertDatabaseHas('users', ['name' => 'Jeremias']);
 
-        $request = new UserForm(new UserUpdateRequest(['name' => 'New Name']));
-        $service->update($request, $user);
+        $attributes['name'] = 'Robert';
+        $form = new UserForm(new FormRequest($attributes));
 
-        $this->assertDatabaseHas('users', ['name' => 'New Name']);
+        $service->update($form, $user);
+
+        $this->assertDatabaseHas('users', ['name' => 'Robert']);
     }
+
+    public function test_delete()
+    {
+        $this->loginAsAdmin();
+        $role = $this->createUserRole();
+
+        $service = new UserService();
+        $attributes = [
+            'name' => 'Jeremias',
+            'email' => 'jeremias@test.com',
+            'role' => $role->toArray()
+        ];
+
+        $form = new UserForm(new FormRequest($attributes));
+
+        $user = $service->create($form);
+        $this->assertDatabaseHas('users', ['name' => 'Jeremias']);
+
+        $service->delete($user);
+
+        $this->assertDatabaseMissing('users', ['name' => 'Jeremias']);
+    }
+
+
 }
