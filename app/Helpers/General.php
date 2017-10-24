@@ -11,10 +11,14 @@ function route_contains($name, $operator = '=')
     return $pos !== false;
 }
 
-function readEnv()
+function readEnv($basePath = null)
 {
+    if (!$basePath) {
+        $basePath = base_path();
+    }
+
     $pattern = '/([^\=]*)\=([^\n]*)/';
-    $envFile = base_path() . '/.env';
+    $envFile = "{$basePath}/.env";
     $lines = file($envFile);
     $env = [];
     foreach ($lines as $line) {

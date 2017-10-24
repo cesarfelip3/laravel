@@ -5,7 +5,7 @@ namespace Deployer;
 require __DIR__ . '/vendor/autoload.php';
 require 'recipe/laravel.php';
 
-$env = readEnv();
+$env = readEnv(__DIR__);
 
 // Configuration
 set('repository', function () {
