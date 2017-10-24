@@ -172,12 +172,14 @@ return [
         Laravel\Tinker\TinkerServiceProvider::class,
         Lord\Laroute\LarouteServiceProvider::class,
         Artesaos\Defender\Providers\DefenderServiceProvider::class,
+        App\Providers\TimezoneServiceProvider::class,
 
         /*
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
+        App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
     ],
@@ -230,6 +232,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Bugsnag' => Bugsnag\BugsnagLaravel\Facades\Bugsnag::class,
         'Defender' => Artesaos\Defender\Facades\Defender::class,
+        'Timezone' => \App\Services\Facades\Timezone::class,
     ],
 
 ];

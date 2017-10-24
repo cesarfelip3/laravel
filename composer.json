@@ -19,16 +19,17 @@
     "php": ">=7.0.0",
     "artesaos/defender": "dev-master@dev",
     "fideloper/proxy": "~3.3",
+    "google/apiclient": "^2.2",
+    "google/cloud-pubsub": "^0.7.0",
     "laravel/cashier": "7.0.*",
     "laravel/dusk": "^1.1",
     "laravel/framework": "5.5.*",
     "laravel/passport": "3.0.*",
     "laravel/scout": "3.0.*",
+    "laravel/socialite": "^3.0",
     "laravel/tinker": "~1.0",
     "lord/laroute": "dev-master",
-    "predis/predis": "^1.1"
-  },
-  "require-dev": {
+    "predis/predis": "^1.1",
     "barryvdh/laravel-debugbar": "2.4.*",
     "barryvdh/laravel-ide-helper": "2.4.*",
     "bugsnag/bugsnag-laravel": "2.6.*",
@@ -36,6 +37,9 @@
     "deployer/recipes": "^4.0",
     "filp/whoops": "~2.0",
     "fzaninotto/faker": "~1.4",
+    "pusher/pusher-php-server": "^3.0"
+  },
+  "require-dev": {
     "mockery/mockery": "0.9.*",
     "pdepend/pdepend": "2.5.*",
     "phploc/phploc": "4.0.*",
