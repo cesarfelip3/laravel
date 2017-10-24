@@ -8,7 +8,9 @@ class Slc
     {
         return [
             'user' => self::getCurrentUser(),
-            'csrfToken' => csrf_token()
+            'csrfToken' => csrf_token(),
+            'pusher_app_key' => env('PUSHER_APP_KEY'),
+            'stripe_key' => env('STRIPE_KEY'),
         ];
     }
 
